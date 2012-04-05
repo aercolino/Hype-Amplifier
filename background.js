@@ -1,5 +1,5 @@
 /**
- * News Amplifier, Andrea Ercolino, http://noteslog.com
+ * Hype-Amplifier, Andrea Ercolino, http://noteslog.com
  */
 
 if (! localStorage['points_weight']) 

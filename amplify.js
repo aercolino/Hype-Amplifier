@@ -1,5 +1,5 @@
 /**
- * News Amplifier, Andrea Ercolino, http://noteslog.com
+ * Hype-Amplifier, Andrea Ercolino, http://noteslog.com
  */
 
 //returns the integer contained in the text of the first element of this$
@@ -27,7 +27,7 @@ function amplify(news$, amplitude, ratio, getPointsAndComments, moveElements) {
 	    var this$ = $(this);
 	    var data = getPointsAndComments(this$);
 	    data = {points: data[0], comments: data[1]};
-	    this$.data('news-amplifier', data);
+	    this$.data('Hype-Amplifier', data);
 	    if (data.points   > max.points)   max.points   = data.points;
 		if (data.comments > max.comments) max.comments = data.comments;
 	});
@@ -36,7 +36,7 @@ function amplify(news$, amplitude, ratio, getPointsAndComments, moveElements) {
 	max.factor = amplitude / (max.points * ratio.points + max.comments * ratio.comments);
 	news$.each(function () {  
 	    var this$ = $(this);
-	    var data = this$.data('news-amplifier');
+	    var data = this$.data('Hype-Amplifier');
 	    var distance = getDistance(data);
 	    moveElements(this$, distance);
 	});
