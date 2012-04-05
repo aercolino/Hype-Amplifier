@@ -1,0 +1,112 @@
+<html>
+<head>
+<title>Amplifier Options</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
+<link   rel="stylesheet"       href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/smoothness/jquery-ui.css" type="text/css" media="all">
+<style type="text/css">
+
+.wrapper {
+    height: 95%;
+}
+
+.footer p {
+    margin: 0;
+    font-size: .7em;
+}
+
+body {
+    font-family: Sans-serif;
+}
+
+dl {
+    margin: 2em 0;
+	width: 90%;
+}
+
+dt {
+    font-weight: bold;
+    margin: .5em 0;
+}
+
+dd {
+    font-size: 0.8em;
+}
+
+#save {
+    margin-top: 20px;
+}
+
+#status {
+    margin: 10px 0 0 0;
+    padding: 5px;
+    background: #FFFFAA;
+}
+
+</style>
+<script type="text/javascript">
+jQuery(function ($) 
+{    
+    function save_options()
+    {
+        localStorage['points_weight'] = $('#slider').slider('value');
+        
+        $('#status').fadeIn(500, function () {
+        	$(this).fadeOut(1500);
+        });
+    }
+    
+    function restore_options()
+    {
+        var points_weight = localStorage['points_weight'];
+        $('#slider').slider('value', points_weight);
+        show_value(points_weight);
+    }
+    
+    function show_value( value )
+    {
+    	$( '#points_weight' ).text( value );
+        $( '#comments_weight' ).text( 100 - value );
+    }
+    
+
+    $('#slider').slider({
+    	slide: function( event, ui ) 
+    	{
+    		show_value(ui.value);
+        }
+    });
+    restore_options();
+    $('#save').click(save_options);
+});
+</script>
+</head>
+<body>
+<div class="wrapper">
+	<h3><img src="resize-048.png"> News Amplifier Options</h3>
+	
+	<p>News Amplifier inserts white space before news according to their value 
+	on the current page. News with more points and comments will appear on the left.</p>
+	
+    <dl>
+	    <dt>Relative weight of points and comments</dt>
+	    <dd>
+	        <p>If you have 20% points and 80% comments then points are worth 1/4 of comments, 
+            thus making posts with more comments more valuable than those with more points.</p>
+	        <div style="width: 400px; overflow: auto; padding: 3px 9px 0 7px;">
+				<div id="slider"></div>
+				<div style="float: left;"><span id="points_weight"></span>% points</div>
+				<div style="float: right;"><span id="comments_weight"></span>% comments</div>
+			</div>
+	    </dd>
+	</dl>
+	
+	<button id='save'>Save</button>
+	<div id="status" style="display: none;">Options saved.</div>
+</div>
+<div class="footer">
+    <p>2012 &copy; Andrea Ercolino, http://noteslog.com<br>
+    icon from http://blog.twg.ca/2010/11/retina-display-icon-set/</p>
+</div>
+</body>
+</html>

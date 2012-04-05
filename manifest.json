@@ -1,0 +1,33 @@
+{
+  "name": "News Amplifier",
+  "version": "1.7",
+  "description": "Use News Amplifier to see news with most points and comments at a glance, while preserving list order.",
+  "homepage_url": "http://noteslog.com/",
+  "options_page": "options.html",
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://news.ycombinator.com/", "http://news.ycombinator.com/news", "http://news.ycombinator.com/x*"],
+      "js": ["jquery.min.js", "amplify.js", "content-hackernews.js"]
+    },
+    {
+      "matches": ["http://www.reddit.com/r/*"],
+      "js": ["jquery.min.js", "amplify.js", "content-reddit.js"]
+    }
+  ],
+  "page_action": {
+    "default_title": "News Amplifier",
+    "default_icon": "resize-019.png",
+    "default_popup": "options.html"
+  },
+  "permissions": [
+    "tabs"
+  ],
+  "icons": { 
+    "16":  "resize-016.png",
+    "48":  "resize-048.png",
+    "128": "resize-128.png"
+  }
+}
