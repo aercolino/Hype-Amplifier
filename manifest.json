@@ -13,7 +13,7 @@
       "js":      ["jquery.min.js", "amplify.js", "content-hackernews.js"]
     },
     {
-      "matches": ["http://www.reddit.com/r/*"],
+      "matches": ["http://www.reddit.com/*"],
       "js":      ["jquery.min.js", "amplify.js", "content-reddit.js"]
     }
   ],
