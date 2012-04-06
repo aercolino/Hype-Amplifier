@@ -1,0 +1,26 @@
+
+On Hacker News (http://news.ycombinator.com/) or Reddit (http://www.reddit.com/), each item has a 
+position in the list, some points, and some comments. 
+
+Rules specific to the site, taking into account points, comments and aging, determine the position 
+of each item in the list. Top news are those currently most interesting and fresh.
+
+However, the sinking crowd hides many hyped news: items with lots of points / comments (signal) 
+sink side by side with all others (noise), and you can only tell them apart by carefully reading 
+numbers of points / comments.
+
+Hype-Amplifier makes hyped items stand out by shifting noise to the right. List order is preserved, 
+so that it's just a visual amplification that plays nice with the rules you are used to.
+
+You can configure how much points and comments count to one another. By default it is 50/50. If you 
+set 20% points / 80% comments, it means that you want comments count 4 times more than points, thus 
+having on the left items with more comments.
+
+100% points / 0% comments means comments are ignored. 
+0% points / 100% comments means points are ignored.
+
+Remember to Save your changes and to reload the page.
+
+*** Currently works with Hacker News, and Reddit.
+*** Code available at https://github.com/aercolino/Hype-Amplifier
+
