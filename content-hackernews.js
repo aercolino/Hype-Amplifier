@@ -20,7 +20,9 @@ chrome.extension.sendRequest({getLocalStorage: "points_weight"}, function(respon
 	
 	//moves the elements for this$ item
 	function moveElements(this$, distance) {
-		this$.parent().next().find('td.subtext').add(this$).css('paddingLeft', distance);
+		this$.parent().next().find('td.subtext')
+		.add(this$)
+			.animate({'padding-left': distance});
 	}
 	
 	var ratio = {points: (response && response.points_weight || 50) / 100};
