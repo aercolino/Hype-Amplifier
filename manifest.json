@@ -3,7 +3,7 @@
   "key": "jaapjannjfdcklcgadbhiddhbelhhnkp",
   "name": "Hype-Amplifier",
   "version": "1.7",
-  "description": "Use Hype-Amplifier to see news with most points and comments at a glance, while preserving list order.",
+  "description": "See hyped news at a glance, while preserving list order.",
   "options_page": "options.html",
   "background": {
     "scripts": ["background.js"]
