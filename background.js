@@ -22,7 +22,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab)
 	switch (true)
 	{
 		case tab.url.search('^http://news.ycombinator.com/(news$|$|x\\b)') > -1:
-		case tab.url.search('^http://www.reddit.com/r/') > -1:
+		case tab.url.search('^http://www.reddit.com/') > -1:
 	    	chrome.pageAction.show(tabId);
 		break;
 	}
