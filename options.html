@@ -10,15 +10,17 @@
 <body>
 <div class="wrapper">
 	<h3><img src="resize-048.png"> Hype-Amplifier</h3>
-	
-	<p>Hype-Amplifier inserts white space before news according to their value 
-	on the current page. News with more points and comments will appear on the left.</p>
-	
+<p>	
+You can configure how much points and comments count to one another. By default it is 50/50. If you set 20% points / 80% comments, it means that you want comments count 4 times more than points, thus having on the left items with more comments.
+</p><p>
+100% points / 0% comments means comments are ignored. <br>
+0% points / 100% comments means points are ignored.
+</p><p>
+Remember to Save your changes and to reload the page.
+</p>
     <dl>
-	    <dt>Relative weight of points and comments</dt>
+	    <dt>Points and comments weight</dt>
 	    <dd>
-	        <p>If you have 20% points and 80% comments then points are worth 1/4 of comments, 
-            thus making posts with more comments more valuable than those with more points.</p>
 	        <div style="width: 400px; overflow: auto; padding: 3px 9px 0 7px;">
 				<div id="slider"></div>
 				<div style="float: left;"><span id="points_weight"></span>% points</div>
@@ -32,7 +34,8 @@
 </div>
 <div class="footer">
     <p>2012 &copy; Andrea Ercolino, http://noteslog.com<br>
-    icon from http://blog.twg.ca/2010/11/retina-display-icon-set/</p>
+    Code available at https://github.com/aercolino/Hype-Amplifier<br>
+    Icon taken from http://blog.twg.ca/2010/11/retina-display-icon-set/</p>
 </div>
 </body>
 </html>
