@@ -5,7 +5,7 @@ Rules specific to the site, taking into account points, comments and aging, dete
 
 However, the sinking crowd hides many hyped news: items with lots of points / comments (signal) sink side by side with all others (noise), and you can only tell them apart by carefully reading numbers of points / comments.
 
-Hype-Amplifier makes hyped items stand out by shifting noise to the right. List order is preserved, so that it's just a visual amplification that plays nice with the rules you are used to.
+Hype-Amplifier makes hyped items stand out by shifting noise to the right. List order is preserved, so that it's an amplification that plays nice with the rules you are used to.
 
 You can configure how much points and comments count to one another. By default it is 50/50. If you set 20% points / 80% comments, it means that you want comments count 4 times more than points, thus having on the left items with more comments.
 
