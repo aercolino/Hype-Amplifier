@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+
+.wrapper {
+    height: 95%;
+}
+
+.footer p {
+    margin: 0;
+    font-size: .7em;
+}
+
+body {
+    font-family: Sans-serif;
+}
+
+dl {
+    margin: 2em 0;
+    width: 90%;
+}
+
+dt {
+    font-weight: bold;
+    margin: .5em 0;
+}
+
+dd {
+    font-size: 0.8em;
+}
+
+#save {
+    margin-top: 20px;
+}
+
+#status {
+    margin: 10px 0 0 0;
+    padding: 5px;
+    background: #FFFFAA;
+}
