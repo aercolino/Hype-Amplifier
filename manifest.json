@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Hype-Amplifier",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "See hyped news at a glance, while preserving list order.",
   "options_page": "options.html",
   "background": {
