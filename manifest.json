@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Hype-Amplifier",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "See hyped news at a glance, while preserving list order.",
   "options_page": "options.html",
   "background": {
@@ -9,7 +9,16 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://news.ycombinator.com/", "http://news.ycombinator.com/news", "http://news.ycombinator.com/x*"],
+      "matches": [
+                 "http://news.ycombinator.com/", 
+                 "http://news.ycombinator.com/news", 
+                 "http://news.ycombinator.com/news2", 
+                 "http://news.ycombinator.com/x*",
+                 "https://news.ycombinator.com/", 
+                 "https://news.ycombinator.com/news", 
+                 "https://news.ycombinator.com/news2", 
+                 "https://news.ycombinator.com/x*"
+                 ],
       "js":      ["jquery.min.js", "amplify.js", "content-hackernews.js"]
     },
     {
