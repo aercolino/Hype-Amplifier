@@ -1,5 +1,5 @@
 /**
- * Hype-Amplifier, Andrea Ercolino, http://noteslog.com
+ * Hype-Amplifier, Andrea Ercolino, http://andowebsit.es/blog/noteslog.com
  */
 
 if (! localStorage['points_weight']) 
@@ -21,7 +21,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab)
 {
 	switch (true)
 	{
-		case tab.url.search('^http://news.ycombinator.com/(news$|$|x\\b)') > -1:
+		case tab.url.search('^https://news.ycombinator.com/(news$|$|x\\b)') > -1:
 		case tab.url.search('^http://www.reddit.com/') > -1:
 	    	chrome.pageAction.show(tabId);
 		break;
