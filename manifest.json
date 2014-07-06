@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Hype-Amplifier",
-  "version": "1.7.3",
-  "description": "See hyped news at a glance, while preserving list order.",
+  "name": "Hyped News",
+  "version": "1.8.0",
+  "description": "Make Hacker News and Reddit most hyped news stand out, while preserving their order.",
   "options_page": "options.html",
   "background": {
     "scripts": ["background.js"]
@@ -10,11 +10,7 @@
   "content_scripts": [
     {
       "matches": [
-                 "http://news.ycombinator.com/", 
-                 "http://news.ycombinator.com/news", 
-                 "http://news.ycombinator.com/news2", 
-                 "http://news.ycombinator.com/x*",
-                 "https://news.ycombinator.com/", 
+                 "https://news.ycombinator.com/",
                  "https://news.ycombinator.com/news", 
                  "https://news.ycombinator.com/news2", 
                  "https://news.ycombinator.com/x*"
@@ -27,16 +23,16 @@
     }
   ],
   "page_action": {
-    "default_title": "Hype-Amplifier",
-    "default_icon":  "resize-019.png",
+    "default_title": "Hyped News",
+    "default_icon":  "images/hype-amplifier-19.png",
     "default_popup": "options.html"
   },
   "permissions": [
     "tabs"
   ],
   "icons": { 
-    "16":  "resize-016.png",
-    "48":  "resize-048.png",
-    "128": "resize-128.png"
+    "16":  "images/hype-amplifier-16.png",
+    "48":  "images/hype-amplifier-48.png",
+    "128": "images/hype-amplifier-128.png"
   }
 }

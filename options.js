@@ -1,14 +1,16 @@
 /**
- * Hype-Amplifier, Andrea Ercolino, http://noteslog.com
+ * Hype-Amplifier, Andrea Ercolino, http://andowebsit.es/blog/noteslog.com
  */
 
 jQuery(function ($) 
 {    
-    function save_options()
+    function save_options(e)
     {
+        e.preventDefault();
+
         localStorage['points_weight'] = $('#slider').slider('value');
         
-        $('#status').fadeIn(500, function () {
+        $('#msg').html('Options saved.').fadeIn(500, function () {
         	$(this).fadeOut(1500);
         });
     }
@@ -33,6 +35,8 @@ jQuery(function ($)
     		show_value(ui.value);
         }
     });
+
     restore_options();
-    $('#save').click(save_options);
+
+    $('#save a').click(save_options);
 });

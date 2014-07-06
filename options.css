@@ -1,9 +1,5 @@
 @CHARSET "UTF-8";
 
-.wrapper {
-    height: 92%;
-}
-
 .footer p {
     margin: 0;
     font-size: .7em;
@@ -11,28 +7,33 @@
 
 body {
     font-family: Sans-serif;
-}
-
-dl {
-    margin: 2em 0;
-    width: 90%;
+    padding: 0 40px 0 40px;
 }
 
 dt {
-    font-weight: bold;
-    margin: .5em 0;
+    padding-top: 10px;
 }
 
-dd {
+.intro, dd {
+    font-size: 0.9em;
+}
+
+#labels {
     font-size: 0.8em;
 }
 
 #save {
-    margin-top: 20px;
+    padding-top: 20px;
 }
 
-#status {
-    margin: 10px 0 0 0;
-    padding: 5px;
+.feedback {
+    text-align: right;
+}
+
+#msg {
     background: #FFFFAA;
+}
+
+.ui-slider-handle:focus {
+    outline: none;
 }
