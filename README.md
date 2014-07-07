@@ -4,7 +4,7 @@ oblivion. Unfortunately, news alignment hides hyped news in a compact forest of 
 apart only by carefully scanning points and comments, from top to bottom, many times in a row before choosing one to
 read. After reading it, if you get back to the page, you need to scan again many times in a row.
 
-Hyped News makes stronger news (with lots of points and comments) stand out by proportionally shifting weaker news to
+Hyped News Amplifier makes stronger news (with lots of points and comments) stand out by proportionally shifting weaker news to
 the right. Given that the list order is preserved, aging works as usual but each time you land the page you can easily
 spot the "important" stuff. Also, given that relative sums of points and comments between news change very little in a
 fair amount of time, when you get back to the page after a while, you can easily find your feet.

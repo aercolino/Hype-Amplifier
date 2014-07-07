@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name":             "Hyped News",
+  "name":             "Hyped News Amplifier",
   "short_name":       "Hyped News",
   "version":          "1.8.0",
-  "description":      "Make hyped news stand out. (on Hacker News and Reddit)",
+  "description":      "Spot hyped news at a glance. (on Hacker News and Reddit)",
   "options_page":     "options.html",
   "background": {
     "scripts":    ["background.js"]
