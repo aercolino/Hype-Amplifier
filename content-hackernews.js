@@ -22,18 +22,14 @@ chrome.extension.sendRequest({getLocalStorage: "points_weight"}, function(respon
         comments: comments
     };
 
-    var amplitude = 0.618 * $('table:eq(0)').width(); //0.618 is the golden ratio
+    var amplitude = goldenRatio($('table:first').width());
 
     var ratio = getRatio(response && response.points_weight);
 
-    amplify(news, amplitude, ratio, moveElements);
-
-    //---
-
-    function moveElements(element, distance) {
+    amplify(news, amplitude, ratio, function(element, distance) {
         $(element).parent().next().find('td.subtext').add(element)
             .css({'padding-left': distance});
-    }
+    });
 
 });
 

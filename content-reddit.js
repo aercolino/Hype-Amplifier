@@ -13,22 +13,18 @@ chrome.extension.sendRequest({getLocalStorage: "points_weight"}, function(respon
         comments: extractNumbers(titles$.find('a.comments'))
     };
 
-    var amplitude = 0.618 * $('#siteTable div.entry:eq(0)').width(); //0.618 is the golden ratio
+    var amplitude = goldenRatio($('#siteTable div.entry:first').width());
 
     var ratio = getRatio(response && response.points_weight);
 
-    amplify(news, amplitude, ratio, moveElements);
-
-    //---
-
-    function moveElements(element, distance) {
+    amplify(news, amplitude, ratio, function(element, distance) {
         var entry$ = $(element).find('div.entry');
         var before$ = entry$.prevUntil('.midcol');
         if (before$.length) {
             entry$ = before$.eq(0);
         }
         entry$.css({'margin-left': distance});
-    }
+    });
 
 });
 

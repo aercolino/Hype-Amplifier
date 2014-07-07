@@ -2,6 +2,10 @@
  * Hype-Amplifier, Andrea Ercolino, http://andowebsit.es/blog/noteslog.com
  */
 
+function goldenRatio(length) {
+    return 0.618 * length; //0.618 is the golden ratio
+}
+
 function getRatio(points_weight) {
     var result = {points: (points_weight || 50) / 100};
     result.comments = 1 - result.points;
