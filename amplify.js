@@ -9,9 +9,10 @@ function getRatio(points_weight) {
 }
 
 function extractNumbers(items$) {
-    return items$.map(function(k, v) {
+    var result = items$.map(function(k, v) {
         return parseInt(0 + $(v).text(), 10)
     }).get();
+    return result.length == 1 ? result[0] : result;
 }
 
 function amplify(news, amplitude, ratio, moveElements) {
