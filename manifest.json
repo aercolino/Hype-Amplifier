@@ -11,12 +11,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://news.ycombinator.com/",
-        "https://news.ycombinator.com/news",
-        "https://news.ycombinator.com/newest",
-        "https://news.ycombinator.com/show",
-        "https://news.ycombinator.com/ask",
-        "https://news.ycombinator.com/x*"
+        "https://news.ycombinator.com/*"
       ],
       "js": ["jquery.min.js", "amplify.js", "content-hackernews.js"],
       "run_at": "document_start"
