@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name":             "Hyped News Amplifier",
   "short_name":       "Hyped News",
-  "version":          "1.8.1",
+  "version":          "1.8.2",
   "description":      "Spot hyped news at a glance. (on Hacker News and Reddit)",
   "options_page":     "options.html",
   "background": {
