@@ -1,4 +1,4 @@
-[Hacker News](https://news.ycombinator.com/) and [Reddit](http://www.reddit.com/) news have a position on the page
+[Hacker News](https://news.ycombinator.com/) and [Reddit](https://www.reddit.com/) news have a position on the page
 according to their age, plus some points and comments. Along time, all news inexorably age down and vanish into
 oblivion. Unfortunately, news alignment hides hyped news in a compact forest of ordinary ones and you can tell them
 apart only by carefully scanning points and comments, from top to bottom, many times in a row before choosing one to

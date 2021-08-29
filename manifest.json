@@ -18,7 +18,7 @@
     },
     {
       "matches": [
-        "http://www.reddit.com/*"
+        "https://www.reddit.com/*"
       ],
       "js": ["jquery.min.js", "amplify.js", "content-reddit.js"],
       "run_at": "document_start"
