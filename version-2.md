@@ -24,15 +24,15 @@
     + otherwise there is not enough space to spread
 + There will be an additional option (MAX_ENTRIES) to set the number of entries to limit the spread to
     + this is to cope with the infinite scroll
-    + each time the page expands to display newly downloaded entries, the app applies a new spread
-    + when set to 1, the spread will be applied to all currently available entries
-    + when set to anything else (greater than 1), the spread will be applied to the last block of that many entries
-        + in this case the blocks will be separated by some pixels (for example applying a margin-top to the first entry)
+    + each time the page downloads more entries, the app applies a new spread
+    + MAX_ENTRIES === 1, the spread will be applied to all currently available entries
+    + MAX_ENTRIES > 1, the spread will be applied to the last block of that many entries
+        + in this case the blocks will be separated by some pixels (for example applying a `margin-top` to the first entry of the block)
 
 ### Mutation Observer
 
 + See the [`MutationObserver`](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) file for an example of how to watch changes to the list of entries
-+ However, that is just a POC... the final implementation should throttle that detection
++ However, that is just a roof of concept. The final implementation should throttle that detection
     + send a "ENTRIES_ADDED" event when
         + either a new block of MAX_ENTRIES has been added
-        + or there are additional entries since the last send but no more entries have been added in the last MAX_WAIT milliseconds
+        + or there are additional entries since the last send but no more entries have been added in the last MAX_WAIT milliseconds (this is to treat the last few N entries, with N < MAX_ENTRIES)
