@@ -28,5 +28,12 @@ chrome.extension.sendRequest({getLocalStorage: "points_weight"}, function(respon
         });
     });
 
+    $(function () {
+        const upButtons = document.querySelectorAll('button[data-click-id="upvote"][id]');
+        if (! upButtons.length) return;
+
+        console.log('upButtons', upButtons.length);
+    });
+
 });
 
