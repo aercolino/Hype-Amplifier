@@ -14,7 +14,16 @@ function getRatio(points_weight) {
 
 function extractNumbers(items$) {
     var result = items$.map(function(k, v) {
-        return parseInt(0 + $(v).text(), 10)
+        const scraped = $(v).text() || '0';
+        let floatValue = parseFloat(scraped);
+        if (/k$/i.test(scraped)) {
+            floatValue *= 1000;
+        }
+        if (/m$/i.test(scraped)) {
+            floatValue *= 1000 * 1000;
+        }
+        const intValue = Math.floor(floatValue, 10);
+        return intValue;
     }).get();
     return result.length == 1 ? result[0] : result;
 }
