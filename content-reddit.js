@@ -1,39 +1,66 @@
-/**
- * Hype-Amplifier, Andrea Ercolino, http://andowebsit.es/blog/noteslog.com
- */
+// Hyped News Amplifier - (C) Andrea Ercolino, http://andowebsit.es
 
-chrome.extension.sendRequest({getLocalStorage: "points_weight"}, function(response) {
+import Amplifier from "./amplifier.class";
 
-    $(function(){
-        var titles$ = $('#siteTable div.link');
-        if (! titles$.length) return;
+class RedditAmplifier extends Amplifier {
+    constructor(rows, pointsCountList, commentsCountList, maxAmplitude, pointsRatio) {
+        super(pointsCountList, commentsCountList, maxAmplitude, pointsRatio);
+        this.rows = rows;
+    }
 
-        var news = {
-            titles$:  titles$,
-            points:   extractNumbers(titles$.find('div.score.unvoted')),
-            comments: extractNumbers(titles$.find('a.comments'))
-        };
+    amplifyItem(index, amplitude) {
+        const row = this.rows[index];
+        row.style.marginLeft = amplitude;
+    }
+}
 
-        var amplitude = goldenRatio($('#siteTable div.entry:first').width());
+function upButtonsNodesList() {
+    return document.querySelectorAll('button[data-click-id="upvote"][id]');
+}
 
-        var ratio = getRatio(response && response.points_weight);
+function commentsNodesList() {
+    return document.querySelectorAll('a[data-click-id="comments"]');
+}
 
-        amplify(news, amplitude, ratio, function(element, distance) {
-            var entry$ = $(element).find('div.entry');
-            var before$ = entry$.prevUntil('.midcol');
-            if (before$.length) {
-                entry$ = before$.eq(0);
-            }
-            entry$.css({'margin-left': distance});
-        });
-    });
+function firstMessageElement() {
+    return document.querySelector('div[data-click-id="body"]');
+}
 
+function movableRowsNodesList() {
+    return document.querySelectorAll('div[data-click-id="background"]');
+}
+
+function pointsCountList() {
+    const result = [];
+    const nodesList = upButtonsNodesList();
+    if (nodesList.length === 0) return result;
+
+    for (element of nodesList) {
+        const value = Amplifier.parseCount(element.nextElementSibling.textContent);
+        result.push(value);
+    }
+    return result;
+}
+
+function commentsCountList() {
+    const result = [];
+    const nodesList = commentsNodesList();
+    if (nodesList.length === 0) return result;
+
+    for (element of nodesList) {
+        const value = Amplifier.parseCount(element.textContent.split(' ')[0]);
+        result.push(value);
+    }
+    return result;
+}
+
+
+chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (response) {
     $(function () {
-        const upButtons = document.querySelectorAll('button[data-click-id="upvote"][id]');
-        if (! upButtons.length) return;
+        const rows = movableRowsNodesList();
+        if (rows.length === 0) return;
 
-        console.log('upButtons', upButtons.length);
+        const amp = new RedditAmplifier(rows, pointsCountList(), commentsCountList(), firstMessageElement().clientWidth, response && response.points_weight);
+        amp.amplifyList();
     });
-
 });
-
