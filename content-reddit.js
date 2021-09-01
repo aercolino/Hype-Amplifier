@@ -1,7 +1,5 @@
 // Hyped News Amplifier - (C) Andrea Ercolino, http://andowebsit.es
 
-import Amplifier from "./amplifier.class";
-
 class RedditAmplifier extends Amplifier {
     constructor(rows, pointsCountList, commentsCountList, maxAmplitude, pointsRatio) {
         super(pointsCountList, commentsCountList, maxAmplitude, pointsRatio);
