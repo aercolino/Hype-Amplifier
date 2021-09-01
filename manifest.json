@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name":             "Hyped News Amplifier",
   "short_name":       "Hyped News",
-  "version":          "1.8.2",
+  "version":          "2.0.0",
   "description":      "Spot hyped news at a glance. (on Hacker News and Reddit)",
   "options_page":     "options.html",
   "background": {
@@ -20,7 +20,8 @@
       "matches": [
         "https://www.reddit.com/*"
       ],
-      "js": ["jquery.min.js", "amplifier.class.js", "content-reddit.js"],
+      "js": ["amplifier.class.js", "content-reddit.js"],
+      "css": ["content-reddit.css"],
       "run_at": "document_start"
     }
   ],

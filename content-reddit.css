@@ -1,0 +1,7 @@
+[data-click-id="background"] {
+  overflow-x: scroll;
+}
+
+[data-click-id="background"]::-webkit-scrollbar {
+  display: none;
+}
