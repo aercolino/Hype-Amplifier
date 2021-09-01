@@ -58,7 +58,7 @@ chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (res
     let intervalId;
     let newsContainer;
     let clientWidth;
-    function runCallbackIfNewsChanged(callback) {
+    function amplifyIfNewsChanged(amplification) {
         if (!newsContainer) {
             try {
                 const firstMessage = firstMessageElement();
@@ -75,14 +75,14 @@ chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (res
         }
         newsCount = childrenCount;
         try {
-            callback();
+            amplification();
         }
         catch (e) {
             console.error(e);
             clearInterval(intervalId);
         }
     }
-    intervalId = setInterval(runCallbackIfNewsChanged, 500, function () {
+    intervalId = setInterval(amplifyIfNewsChanged, 500, function amplification() {
         const rows = movableRowsNodesList();
         if (rows.length === 0) return;
 
