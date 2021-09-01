@@ -102,8 +102,7 @@ chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (res
             amplification();
         }
         catch (e) {
-            console.error(e);
-            clearInterval(intervalId);
+            console.log('ERROR', e);
         }
     }
 
