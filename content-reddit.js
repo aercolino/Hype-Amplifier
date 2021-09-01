@@ -54,11 +54,39 @@ function commentsCountList() {
 
 
 chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (response) {
-    $(function () {
+    let newsCount = 0;
+    let intervalId;
+    let newsContainer;
+    let clientWidth;
+    function runCallbackIfNewsChanged(callback) {
+        if (!newsContainer) {
+            try {
+                const firstMessage = firstMessageElement();
+                newsContainer =  firstMessage.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+                clientWidth = firstMessage.clientWidth;
+            }
+            catch (e) {
+                return;
+            }
+        }
+        const childrenCount = newsContainer.childElementCount;
+        if (childrenCount === newsCount) {
+            return;
+        }
+        newsCount = childrenCount;
+        try {
+            callback();
+        }
+        catch (e) {
+            console.error(e);
+            clearInterval(intervalId);
+        }
+    }
+    intervalId = setInterval(runCallbackIfNewsChanged, 500, function () {
         const rows = movableRowsNodesList();
         if (rows.length === 0) return;
 
-        const amp = new RedditAmplifier(rows, pointsCountList(), commentsCountList(), firstMessageElement().clientWidth, response && response.points_weight);
+        const amp = new RedditAmplifier(rows, pointsCountList(), commentsCountList(), clientWidth, response && response.points_weight);
         amp.amplifyList();
     });
 });
