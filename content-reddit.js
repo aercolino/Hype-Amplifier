@@ -8,7 +8,7 @@ class RedditAmplifier extends Amplifier {
 
     amplifyItem(index, amplitude) {
         const row = this.rows[index];
-        row.style.marginLeft = amplitude;
+        row.style.marginLeft = `${amplitude}px`;
     }
 }
 
