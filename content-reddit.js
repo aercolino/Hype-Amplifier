@@ -76,13 +76,21 @@ function waitForElement(selectorFn) {
 
 
 chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (response) {
-    let newsCount = 0;
     let newsContainer;
     let newsWidth;
-    let intervalId;
     let observer;
+    let newsCount = 0;
+    let intervalId;
 
-    function amplifyIfNewsChanged(amplification) {
+    function amplification() {
+        const rows = movableRowsNodesList();
+        if (rows.length === 0) return;
+
+        const amp = new RedditAmplifier(rows, pointsCountList(), commentsCountList(), newsWidth, response && response.points_weight);
+        amp.amplifyList();
+    }
+
+    function amplifyIfNewsChanged() {
         const childrenCount = newsContainer.childElementCount;
         if (childrenCount === newsCount) {
             clearInterval(intervalId);
@@ -99,23 +107,14 @@ chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (res
         }
     }
 
-    function amplification() {
-        const rows = movableRowsNodesList();
-        if (rows.length === 0) return;
-
-        const amp = new RedditAmplifier(rows, pointsCountList(), commentsCountList(), newsWidth, response && response.points_weight);
-        amp.amplifyList();
-    }
-
     waitForElement(firstMessageElement)
         .then((firstMessage) => {
             newsContainer =  firstMessage.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
             newsWidth = firstMessage.clientWidth;
-            const callback = function() {
+            observer = new MutationObserver(() => {
                 observer.disconnect();
-                intervalId = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_TO_CHANGE, amplification);
-            };
-            observer = new MutationObserver(callback);
-            intervalId = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_TO_CHANGE, amplification);
+                intervalId = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_TO_CHANGE);
+            });
+            intervalId = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_TO_CHANGE);
         });
 });
