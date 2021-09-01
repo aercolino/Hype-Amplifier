@@ -35,6 +35,15 @@ export default class Amplifier {
         this.factor = this.maxAmplitude / (this.pointsCountMax * this.ratios.points + this.commentsCountMax * this.ratios.comments);
     }
 
+    getAmplitude({ pointsCount, commentsCount }) {
+        var delta = {
+            points: this.pointsCountMax - pointsCount,
+            comments: this.commentsCountMax - commentsCount,
+        };
+        var result = Math.floor(this.factor * (delta.points * this.ratios.points + delta.comments * this.ratios.comments));
+        return result;
+    }
+
     amplifyItem(index, amplitude) {
         throw new Error('Expected some implementation of this method');
     }
@@ -45,15 +54,6 @@ export default class Amplifier {
             var amplitude = this.getAmplitude({ pointsCount, commentsCount });
             this.amplifyItem(index, amplitude);
         });
-    }
-
-    getAmplitude({ pointsCount, commentsCount }) {
-        var delta = {
-            points: this.pointsCountMax - pointsCount,
-            comments: this.commentsCountMax - commentsCount,
-        };
-        var result = Math.floor(this.factor * (delta.points * this.ratios.points + delta.comments * this.ratios.comments));
-        return result;
     }
 
     static parseCount(scrapedText) {
