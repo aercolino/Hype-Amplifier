@@ -1,5 +1,9 @@
 // Hyped News Amplifier - (C) Andrea Ercolino, http://andowebsit.es
 
+const MESSAGES_ON_THE_FIRST_PAGE = 26; // units
+const WAIT_FOR_ELEMENT_TO_APPEAR = 100; // milliseconds
+const WAIT_FOR_NEWS_TO_CHANGE = 500; // milliseconds
+
 class RedditAmplifier extends Amplifier {
     constructor(rows, pointsCountList, commentsCountList, maxAmplitude, pointsRatio) {
         super(pointsCountList, commentsCountList, maxAmplitude, pointsRatio);
@@ -21,7 +25,12 @@ function commentsNodesList() {
 }
 
 function firstMessageElement() {
-    return document.querySelector('div[data-click-id="body"]');
+    const messages = document.querySelectorAll('div[data-click-id="body"]');
+    const firstPageCompleted = messages.length === MESSAGES_ON_THE_FIRST_PAGE;
+    if (firstPageCompleted) {
+        return messages[0];
+    }
+    return undefined;
 }
 
 function movableRowsNodesList() {
@@ -52,25 +61,32 @@ function commentsCountList() {
     return result;
 }
 
+function waitForElement(selectorFn) {
+    return new Promise((resolve) => {
+        let element;
+        const intervalId = setInterval(() => {
+            element = selectorFn();
+            if (element) {
+                clearInterval(intervalId);
+                resolve(element);
+            }
+        }, WAIT_FOR_ELEMENT_TO_APPEAR);
+    });
+}
+
 
 chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (response) {
     let newsCount = 0;
-    let intervalId;
     let newsContainer;
-    let clientWidth;
+    let newsWidth;
+    let intervalId;
+    let observer;
+
     function amplifyIfNewsChanged(amplification) {
-        if (!newsContainer) {
-            try {
-                const firstMessage = firstMessageElement();
-                newsContainer =  firstMessage.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
-                clientWidth = firstMessage.clientWidth;
-            }
-            catch (e) {
-                return;
-            }
-        }
         const childrenCount = newsContainer.childElementCount;
         if (childrenCount === newsCount) {
+            clearInterval(intervalId);
+            observer.observe(newsContainer, { childList: true });
             return;
         }
         newsCount = childrenCount;
@@ -82,11 +98,24 @@ chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (res
             clearInterval(intervalId);
         }
     }
-    intervalId = setInterval(amplifyIfNewsChanged, 500, function amplification() {
+
+    function amplification() {
         const rows = movableRowsNodesList();
         if (rows.length === 0) return;
 
-        const amp = new RedditAmplifier(rows, pointsCountList(), commentsCountList(), clientWidth, response && response.points_weight);
+        const amp = new RedditAmplifier(rows, pointsCountList(), commentsCountList(), newsWidth, response && response.points_weight);
         amp.amplifyList();
-    });
+    }
+
+    waitForElement(firstMessageElement)
+        .then((firstMessage) => {
+            newsContainer =  firstMessage.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+            newsWidth = firstMessage.clientWidth;
+            const callback = function() {
+                observer.disconnect();
+                intervalId = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_TO_CHANGE, amplification);
+            };
+            observer = new MutationObserver(callback);
+            intervalId = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_TO_CHANGE, amplification);
+        });
 });
