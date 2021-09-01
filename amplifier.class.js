@@ -1,6 +1,6 @@
 // Hyped News Amplifier - (C) Andrea Ercolino, http://andowebsit.es
 
- const goldenRatio = 0.618;
+const goldenRatio = 0.618;
 
 function getRatios(pointsRatio) {
     var result = {points: (pointsRatio || 50) / 100};
@@ -23,7 +23,7 @@ function parseCount(scrapedText) {
     return result;
 }
 
-export default class Amplifier {
+class Amplifier {
     constructor(pointsCountList, commentsCountList, maxAmplitude, pointsRatio) {
         this.pointsCountList = pointsCountList;
         this.commentsCountList = commentsCountList;
@@ -50,7 +50,7 @@ export default class Amplifier {
 
     amplifyList() {
         this.pointsCountList.forEach((pointsCount, index) => {
-            const commentsCount = this.comments[index];
+            const commentsCount = this.commentsCountList[index];
             var amplitude = this.getAmplitude({ pointsCount, commentsCount });
             this.amplifyItem(index, amplitude);
         });
