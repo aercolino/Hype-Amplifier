@@ -1,7 +1,6 @@
 // Hyped News Amplifier - (C) Andrea Ercolino, http://andowebsit.es
 
-const MESSAGES_ON_THE_FIRST_PAGE = 26; // units
-const WAIT_FOR_ELEMENT_DELAY = 100; // milliseconds
+const MESSAGES_ON_THE_FIRST_PAGE = 25; // units
 const WAIT_FOR_NEWS_DELAY = 500; // milliseconds
 
 class RedditAmplifier extends Amplifier {
@@ -16,8 +15,8 @@ class RedditAmplifier extends Amplifier {
     }
 }
 
-function upButtonsNodesList() {
-    return document.querySelectorAll('button[data-click-id="upvote"][id]');
+function pointsNodesList() {
+    return document.querySelectorAll('button[data-click-id="upvote"][id]~div');
 }
 
 function commentsNodesList() {
@@ -26,7 +25,7 @@ function commentsNodesList() {
 
 function firstMessageElement() {
     const messages = document.querySelectorAll('div[data-click-id="body"]');
-    const firstPageCompleted = messages.length === MESSAGES_ON_THE_FIRST_PAGE;
+    const firstPageCompleted = messages.length >= MESSAGES_ON_THE_FIRST_PAGE;
     if (firstPageCompleted) {
         return messages[0];
     }
@@ -35,43 +34,6 @@ function firstMessageElement() {
 
 function movableRowsNodesList() {
     return document.querySelectorAll('div[data-click-id="background"]');
-}
-
-function pointsCountList() {
-    const result = [];
-    const nodesList = upButtonsNodesList();
-    if (nodesList.length === 0) return result;
-
-    for (element of nodesList) {
-        const value = Amplifier.parseCount(element.nextElementSibling.textContent);
-        result.push(value);
-    }
-    return result;
-}
-
-function commentsCountList() {
-    const result = [];
-    const nodesList = commentsNodesList();
-    if (nodesList.length === 0) return result;
-
-    for (element of nodesList) {
-        const value = Amplifier.parseCount(element.textContent.split(' ')[0]);
-        result.push(value);
-    }
-    return result;
-}
-
-function waitForElement(selectorFn) {
-    return new Promise((resolve) => {
-        let element;
-        const intervalId = setInterval(() => {
-            element = selectorFn();
-            if (element) {
-                clearInterval(intervalId);
-                resolve(element);
-            }
-        }, WAIT_FOR_ELEMENT_DELAY);
-    });
 }
 
 
@@ -86,7 +48,9 @@ chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (res
         const rows = movableRowsNodesList();
         if (rows.length === 0) return;
 
-        const amp = new RedditAmplifier(rows, pointsCountList(), commentsCountList(), newsWidth, response && response.points_weight);
+        const pointsCountList = Amplifier.countList(pointsNodesList());
+        const commentsCountList = Amplifier.countList(commentsNodesList());
+        const amp = new RedditAmplifier(rows, pointsCountList, commentsCountList, newsWidth, response && response.points_weight);
         amp.amplifyList();
     }
 
@@ -108,7 +72,7 @@ chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (res
         }
     }
 
-    waitForElement(firstMessageElement)
+    Amplifier.waitForElement(firstMessageElement)
         .then((firstMessage) => {
             // As of 2021-08, this is how you go from the message to the smallest news container in the Reddit page
             newsContainer =  firstMessage.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;

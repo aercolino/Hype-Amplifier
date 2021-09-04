@@ -23,6 +23,35 @@ function parseCount(scrapedText) {
     return result;
 }
 
+function waitForElement(selectorFn, { delay } = { delay: 100 }) {
+    return new Promise((resolve) => {
+        let element = selectorFn();
+        if (element) {
+            return resolve(element);
+        }
+        const intervalId = setInterval(() => {
+            element = selectorFn();
+            if (element) {
+                clearInterval(intervalId);
+                resolve(element);
+            }
+        }, delay);
+    });
+}
+
+function countList(list) {
+    const result = [];
+    const nodesList = list;
+    if (nodesList.length === 0) return result;
+
+    for (element of nodesList) {
+        const value = Amplifier.parseCount(element.textContent.split(' ')[0]);
+        result.push(value);
+    }
+    return result;
+}
+
+
 class Amplifier {
     constructor(pointsCountList, commentsCountList, maxAmplitude, pointsRatio) {
         this.pointsCountList = pointsCountList;
@@ -56,7 +85,15 @@ class Amplifier {
         });
     }
 
-    static parseCount(scrapedText) {
-        return parseCount(scrapedText);
+    static parseCount(...args) {
+        return parseCount(...args);
+    }
+
+    static waitForElement(...args) {
+        return waitForElement(...args);
+    }
+
+    static countList(...args) {
+        return countList(...args);
     }
 }
