@@ -1,8 +1,8 @@
 // Hyped News Amplifier - (C) Andrea Ercolino, http://andowebsit.es
 
 const MESSAGES_ON_THE_FIRST_PAGE = 26; // units
-const WAIT_FOR_ELEMENT_TO_APPEAR = 100; // milliseconds
-const WAIT_FOR_NEWS_TO_CHANGE = 500; // milliseconds
+const WAIT_FOR_ELEMENT_DELAY = 100; // milliseconds
+const WAIT_FOR_NEWS_DELAY = 500; // milliseconds
 
 class RedditAmplifier extends Amplifier {
     constructor(rows, pointsCountList, commentsCountList, maxAmplitude, pointsRatio) {
@@ -70,7 +70,7 @@ function waitForElement(selectorFn) {
                 clearInterval(intervalId);
                 resolve(element);
             }
-        }, WAIT_FOR_ELEMENT_TO_APPEAR);
+        }, WAIT_FOR_ELEMENT_DELAY);
     });
 }
 
@@ -93,7 +93,9 @@ chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (res
     function amplifyIfNewsChanged() {
         const childrenCount = newsContainer.childElementCount;
         if (childrenCount === newsCount) {
+            // As soon as we see that no news were added since the previous check, we stop checking again later
             clearInterval(intervalId);
+            // and instead start observing the news container again, waiting for the infinite scroll to kick in
             observer.observe(newsContainer, { childList: true });
             return;
         }
@@ -108,12 +110,16 @@ chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (res
 
     waitForElement(firstMessageElement)
         .then((firstMessage) => {
+            // As of 2021-08, this is how you go from the message to the smallest news container in the Reddit page
             newsContainer =  firstMessage.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
             newsWidth = firstMessage.clientWidth;
             observer = new MutationObserver(() => {
+                // This observer is only used to detect when the Reddit page starts loading a new block of news (infinite scrolling)
                 observer.disconnect();
-                intervalId = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_TO_CHANGE);
+                // From then on, we look for newly added news, between adjacent checks, at regular intervals of time
+                intervalId = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_DELAY);
             });
-            intervalId = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_TO_CHANGE);
+            // Initially, we look for newly added news. Here a timeout would be enough, but it's easier to re-use the interval setup
+            intervalId = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_DELAY);
         });
 });
