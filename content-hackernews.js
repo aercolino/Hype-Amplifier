@@ -10,6 +10,8 @@ class HackerNewsAmplifier extends Amplifier {
 
     amplifyItem(index, amplitude) {
         const title = this.rows[index];
+        // We get to the byline like below because we want to skip Y Combinator announcements
+        // and bylines are not siblings to titles but cousins!
         const byline = title.parentElement.nextElementSibling.querySelector('.subtext');
         title.style.paddingLeft = `${amplitude}px`;
         byline.style.paddingLeft = `${amplitude}px`;
@@ -34,6 +36,7 @@ function firstMessageElement() {
 }
 
 function amplifiableElements() {
+    // We get to the title like below because we want to skip Y Combinator announcements
     return document.querySelectorAll('.votelinks~.title');
 }
 
