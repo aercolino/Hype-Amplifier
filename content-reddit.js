@@ -15,11 +15,11 @@ class RedditAmplifier extends Amplifier {
     }
 }
 
-function pointsNodesList() {
+function pointsElements() {
     return document.querySelectorAll('button[data-click-id="upvote"][id]~div');
 }
 
-function commentsNodesList() {
+function commentsElements() {
     return document.querySelectorAll('a[data-click-id="comments"]');
 }
 
@@ -32,7 +32,7 @@ function firstMessageElement() {
     return undefined;
 }
 
-function movableRowsNodesList() {
+function movableRowsElements() {
     return document.querySelectorAll('div[data-click-id="background"]');
 }
 
@@ -45,11 +45,11 @@ chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (res
     let intervalId;
 
     function amplification() {
-        const rows = movableRowsNodesList();
+        const rows = movableRowsElements();
         if (rows.length === 0) return;
 
-        const pointsCountList = Amplifier.countList(pointsNodesList());
-        const commentsCountList = Amplifier.countList(commentsNodesList());
+        const pointsCountList = Amplifier.countList(pointsElements());
+        const commentsCountList = Amplifier.countList(commentsElements());
         const amp = new RedditAmplifier(rows, pointsCountList, commentsCountList, newsWidth, response && response.points_weight);
         amp.amplifyList();
     }

@@ -14,11 +14,11 @@ class HackerNewsAmplifier extends Amplifier {
     }
 }
 
-function pointsNodesList() {
+function pointsElements() {
     return Array.from(document.querySelectorAll('.score'));
 }
 
-function commentsNodesList() {
+function commentsElements() {
     return Array.from(document.querySelectorAll('.subtext :nth-child(6)'));
 }
 
@@ -31,7 +31,7 @@ function firstMessageElement() {
     return undefined;
 }
 
-function movableRowsNodesList() {
+function movableRowsElements() {
     return Array.from(document.querySelectorAll('.votelinks~.title'));
 }
 
@@ -41,11 +41,11 @@ chrome.extension.sendRequest({getLocalStorage: "points_weight"}, function(respon
     let newsWidth;
 
     function amplification() {
-        const rows = movableRowsNodesList();
+        const rows = movableRowsElements();
         if (rows.length === 0) return;
 
-        const pointsCountList = Amplifier.countList(pointsNodesList());
-        const commentsCountList = Amplifier.countList(commentsNodesList());
+        const pointsCountList = Amplifier.countList(pointsElements());
+        const commentsCountList = Amplifier.countList(commentsElements());
         const amp = new HackerNewsAmplifier(rows, pointsCountList, commentsCountList, newsWidth, response && response.points_weight);
         amp.amplifyList();
     }

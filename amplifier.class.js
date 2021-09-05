@@ -41,10 +41,10 @@ function waitForElement(selectorFn, { delay } = { delay: 100 }) {
 
 function countList(list) {
     const result = [];
-    const nodesList = list;
-    if (nodesList.length === 0) return result;
+    const elements = list;
+    if (elements.length === 0) return result;
 
-    for (element of nodesList) {
+    for (element of elements) {
         const value = Amplifier.parseCount(element.textContent.split(' ')[0]);
         result.push(value);
     }
