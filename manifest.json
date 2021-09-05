@@ -13,7 +13,7 @@
       "matches": [
         "https://news.ycombinator.com/*"
       ],
-      "js": ["jquery.min.js", "amplifier.class.js", "content-hackernews.js"],
+      "js": ["amplifier.class.js", "content-hackernews.js"],
       "run_at": "document_start"
     },
     {
