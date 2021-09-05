@@ -1,6 +1,4 @@
-/**
- * Hype-Amplifier, Andrea Ercolino, http://andowebsit.es/blog/noteslog.com
- */
+// Hyped News Amplifier - (C) Andrea Ercolino, http://andowebsit.es
 
 chrome.extension.onRequest.addListener(function (request, sender, sendResponse)
 {
