@@ -44,7 +44,7 @@ function countList(list) {
     const elements = list;
     if (elements.length === 0) return result;
 
-    for (element of elements) {
+    for (let element of elements) {
         const value = Amplifier.parseCount(element.textContent.split(' ')[0]);
         result.push(value);
     }
