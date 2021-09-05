@@ -32,7 +32,7 @@ function firstMessageElement() {
     return undefined;
 }
 
-function movableRowsElements() {
+function amplifiableElements() {
     return document.querySelectorAll('div[data-click-id="background"]');
 }
 
@@ -45,7 +45,7 @@ chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (res
     let intervalId;
 
     function amplification() {
-        const rows = movableRowsElements();
+        const rows = amplifiableElements();
         if (rows.length === 0) return;
 
         const pointsCountList = Amplifier.countList(pointsElements());

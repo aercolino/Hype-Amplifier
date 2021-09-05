@@ -31,7 +31,7 @@ function firstMessageElement() {
     return undefined;
 }
 
-function movableRowsElements() {
+function amplifiableElements() {
     return Array.from(document.querySelectorAll('.votelinks~.title'));
 }
 
@@ -41,7 +41,7 @@ chrome.extension.sendRequest({getLocalStorage: "points_weight"}, function(respon
     let newsWidth;
 
     function amplification() {
-        const rows = movableRowsElements();
+        const rows = amplifiableElements();
         if (rows.length === 0) return;
 
         const pointsCountList = Amplifier.countList(pointsElements());
