@@ -1,10 +1,6 @@
-.footer p {
-    margin: 0;
-    font-size: .7em;
-}
-
 body {
     font-family: Sans-serif;
+    font-size: medium;
     padding: 0 40px 0 40px;
 }
 
@@ -12,26 +8,25 @@ dt {
     padding-top: 10px;
 }
 
-.intro, dd {
-    font-size: 0.9em;
+.smaller {
+    font-size: small;
 }
 
-#labels {
-    font-size: 0.8em;
+.avatar {
+    float: left;
 }
 
-#save {
-    padding-top: 20px;
+.title {
+    overflow: hidden;
 }
 
-.feedback {
-    text-align: right;
+.title h1 {
+    margin-top: -4px;
+    margin-bottom: 0;
+    padding-left: 4px;
 }
 
-#msg {
-    background: #FFFFAA;
-}
-
-.ui-slider-handle:focus {
-    outline: none;
+.title p {
+    margin-top: 2px;
+    padding-left: 5px;
 }

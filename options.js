@@ -1,35 +1,33 @@
 // Hyped News Amplifier - (C) Andrea Ercolino, http://andowebsit.es
 
-jQuery(function ($) {
-    function save_options(e) {
-        e.preventDefault();
-
-        localStorage['points_weight'] = $('#slider').slider('value');
-
-        $('#msg').html('Options saved.').fadeIn(500, function () {
-            $(this).fadeOut(1500);
-        });
-    }
-
-    function restore_options() {
-        var points_weight = localStorage['points_weight'];
-        $('#slider').slider('value', points_weight);
-        show_value(points_weight);
-    }
-
-    function show_value(value) {
-        $('#points_weight').text(value);
-        $('#comments_weight').text(100 - value);
-    }
-
-
-    $('#slider').slider({
-        slide: function (event, ui) {
-            show_value(ui.value);
+function domReady() {
+    return new Promise((resolve) => {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => resolve());
+        } else {
+            resolve();
         }
     });
+}
 
-    restore_options();
+let points;
 
-    $('#save a').click(save_options);
+domReady().then(function () {
+    function saveOptions() {
+        localStorage['points_weight'] = parseInt(points.value, 10);
+    }
+
+    function computeComments() {
+        const comments = document.querySelector('#comments_weight');
+        comments.value = 100 - points.value;
+    }
+
+    points = document.querySelector('#points_weight');
+    points.addEventListener('change', () => {
+        saveOptions();
+        computeComments();
+    });
+
+    points.value = localStorage['points_weight'];
+    computeComments();
 });
