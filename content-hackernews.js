@@ -9,17 +9,19 @@ class HackerNewsAmplifier extends Amplifier {
     }
 
     amplifyItem(index, amplitude) {
-        const row = this.rows[index];
-        row.style.paddingLeft = `${amplitude}px`;
+        const title = this.rows[index];
+        const byline = title.parentElement.nextElementSibling.querySelector('.subtext');
+        title.style.paddingLeft = `${amplitude}px`;
+        byline.style.paddingLeft = `${amplitude}px`;
     }
 }
 
 function pointsElements() {
-    return Array.from(document.querySelectorAll('.score'));
+    return document.querySelectorAll('.score');
 }
 
 function commentsElements() {
-    return Array.from(document.querySelectorAll('.subtext :nth-child(6)'));
+    return document.querySelectorAll('.subtext :nth-child(6)');
 }
 
 function firstMessageElement() {
@@ -32,7 +34,7 @@ function firstMessageElement() {
 }
 
 function amplifiableElements() {
-    return Array.from(document.querySelectorAll('.votelinks~.title'));
+    return document.querySelectorAll('.votelinks~.title');
 }
 
 
