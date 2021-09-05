@@ -1,48 +1,65 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Hyped News Amplifier</title>
-    <script type="text/javascript" src="jquery.min.js"></script>
-    <script type="text/javascript" src="jquery-ui.min.js"></script>
-    <link   type="text/css"       href="jquery-ui.min.css" rel="stylesheet" media="all">
-    <link   type="text/css"       href="options.css"   rel="stylesheet" media="all">
-    <script type="text/javascript" src="options.js"></script>
+    <script type="text/javascript"
+            src="jquery.min.js"></script>
+    <script type="text/javascript"
+            src="jquery-ui.min.js"></script>
+    <link type="text/css"
+          href="jquery-ui.min.css"
+          rel="stylesheet"
+          media="all">
+    <link type="text/css"
+          href="options.css"
+          rel="stylesheet"
+          media="all">
+    <script type="text/javascript"
+            src="options.js"></script>
 </head>
+
 <body>
-<div class="wrapper">
+    <div class="wrapper">
 
-    <h1><img src="images/hype-amplifier-48.png" valign="middle"> Hyped News Amplifier</h1>
+        <h1><img src="images/hype-amplifier-48.png"
+                 valign="middle"> Hyped News Amplifier</h1>
 
-    <p class="intro">Hyped News Amplifier is a little extension for Hacker News and Reddit. It allows you to easily
-        spot news with most points and comments, while preserving list order.</p>
+        <p class="intro">Hyped News Amplifier is a little extension for Hacker News and Reddit. It allows you to easily
+            spot news with most points and comments, while preserving list order.</p>
 
-    <dl>
-        <dt>Points and comments relative weight</dt>
-        <dd>
-            <div style="width: 400px; overflow: auto; padding: 20px 15px 10px 10px; margin: -10px;">
-                <div id="slider"></div>
-                <div id="labels">
-                    <div style="float: left;"><span id="points_weight"></span>% points</div>
-                    <div style="float: right;"><span id="comments_weight"></span>% comments</div>
+        <dl>
+            <dt>Points and comments relative weight</dt>
+            <dd>
+                <div style="width: 400px; overflow: auto; padding: 20px 15px 10px 10px; margin: -10px;">
+                    <div id="slider"></div>
+                    <div id="labels">
+                        <div style="float: left;"><span id="points_weight"></span>% points</div>
+                        <div style="float: right;"><span id="comments_weight"></span>% comments</div>
+                    </div>
                 </div>
-            </div>
-            <div style="width: 400px;">
-                <p>Feel free to configure how much points and comments count with respect to each other.
-                By default it is 50 / 50.</p>
-                <p>My personal choice is 20 / 80: it means that I want comments to count 4 times as much as
-                points, thus making posts with many comments stand out quite more than those with many points.</p>
-                <p>Put either to 100 to take that one into account and ignore the other.</p>
-            </div>
-        </dd>
-	</dl>
+                <div style="width: 400px;">
+                    <p>Feel free to configure how much points and comments count with respect to each other.
+                        By default it is 50 / 50.</p>
+                    <p>My personal choice is 20 / 80: it means that I want comments to count 4 times as much as
+                        points, thus making posts with many comments stand out quite more than those with many points.
+                    </p>
+                    <p>Put either to 100 to take that one into account and ignore the other.</p>
+                </div>
+            </dd>
+        </dl>
 
-	<p class="intro" id='save'><a href="#">Save</a> your changes and reload the page to apply them.
-        <div class="feedback"> <span id="msg" style="display: none;"></span> </div></p>
+        <p class="intro"
+           id='save'><a href="#">Save</a> your changes and reload the page to apply them.
+        <div class="feedback"> <span id="msg"
+                  style="display: none;"></span> </div>
+        </p>
 
-</div>
-<div class="footer">
-    <p>2021 &copy; Andrea Ercolino, http://andowebsit.es<br>
-    Open Source: https://github.com/aercolino/Hype-Amplifier</p>
-</div>
+    </div>
+    <div class="footer">
+        <p>2021 &copy; Andrea Ercolino, http://andowebsit.es<br>
+            Open Source: https://github.com/aercolino/Hype-Amplifier</p>
+    </div>
 </body>
+
 </html>

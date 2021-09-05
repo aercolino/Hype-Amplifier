@@ -1,41 +1,51 @@
 {
   "manifest_version": 2,
-  "name":             "Hyped News Amplifier",
-  "short_name":       "Hyped News",
-  "version":          "2.0.0",
-  "description":      "Spot hyped news at a glance. (on Hacker News and Reddit)",
-  "options_page":     "options.html",
+  "name": "Hyped News Amplifier",
+  "short_name": "Hyped News",
+  "version": "2.0.0",
+  "description": "Spot hyped news at a glance. (on Hacker News and Reddit)",
+  "options_page": "options.html",
   "background": {
-    "scripts":    ["background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
   "content_scripts": [
     {
       "matches": [
         "https://news.ycombinator.com/*"
       ],
-      "js": ["amplifier.class.js", "content-hackernews.js"],
+      "js": [
+        "amplifier.class.js",
+        "content-hackernews.js"
+      ],
       "run_at": "document_start"
     },
     {
       "matches": [
         "https://www.reddit.com/*"
       ],
-      "js": ["amplifier.class.js", "content-reddit.js"],
-      "css": ["content-reddit.css"],
+      "js": [
+        "amplifier.class.js",
+        "content-reddit.js"
+      ],
+      "css": [
+        "content-reddit.css"
+      ],
       "run_at": "document_start"
     }
   ],
   "page_action": {
     "default_title": "Hyped News",
-    "default_icon":  "images/hype-amplifier-19.png",
+    "default_icon": "images/hype-amplifier-19.png",
     "default_popup": "options.html"
   },
   "permissions": [
     "tabs"
   ],
-  "icons": { 
-    "16":  "images/hype-amplifier-16.png",
-    "48":  "images/hype-amplifier-48.png",
+  "icons": {
+    "16": "images/hype-amplifier-16.png",
+    "48": "images/hype-amplifier-48.png",
     "128": "images/hype-amplifier-128.png"
   }
 }

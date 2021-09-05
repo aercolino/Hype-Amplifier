@@ -3,7 +3,7 @@
 const goldenRatio = 0.618;
 
 function getRatios(pointsRatio) {
-    var result = {points: (pointsRatio || 50) / 100};
+    var result = { points: (pointsRatio || 50) / 100 };
     result.comments = 1 - result.points;
     return result;
 }
