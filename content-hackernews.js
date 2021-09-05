@@ -30,7 +30,7 @@ function firstMessageElement() {
     const messages = document.querySelectorAll('td:nth-child(3).title');
     const firstPageCompleted = messages.length >= MESSAGES_ON_THE_FIRST_PAGE;
     if (firstPageCompleted) {
-        return messages[0];
+        return messages[0].parentElement;
     }
     return undefined;
 }
@@ -66,7 +66,10 @@ chrome.extension.sendRequest({getLocalStorage: "points_weight"}, function(respon
 
     Amplifier.waitForElement(firstMessageElement)
         .then((firstMessage) => {
-            newsWidth = firstMessage.clientWidth;
+            const tableWidth = document.getElementById('pagespace').clientWidth;
+            const messageNumberWidth = firstMessage.querySelector('.title').clientWidth;
+            const upButtonWidth = firstMessage.querySelector('.votelinks').clientWidth;
+            newsWidth = tableWidth - upButtonWidth - messageNumberWidth;
             amplify();
         });
 });
