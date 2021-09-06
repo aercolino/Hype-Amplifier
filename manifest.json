@@ -6,9 +6,7 @@
   "description": "Spot hyped news at a glance. (on Hacker News and Reddit)",
   "options_page": "options.html",
   "background": {
-    "scripts": [
-      "background.js"
-    ]
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
@@ -41,6 +39,7 @@
     "default_popup": "options.html"
   },
   "permissions": [
+    "storage"
   ],
   "icons": {
     "16": "images/hype-amplifier-16.png",

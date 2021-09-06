@@ -37,7 +37,7 @@ function amplifiableElements() {
 }
 
 
-chrome.extension.sendRequest({ getLocalStorage: "points_weight" }, function (response) {
+chrome.storage.local.get(['points_weight'], function(response) {
     let newsContainer;
     let newsWidth;
     let observer;

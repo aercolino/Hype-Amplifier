@@ -14,7 +14,7 @@ let points;
 
 domReady().then(function () {
     function saveOptions() {
-        localStorage['points_weight'] = parseInt(points.value, 10);
+        chrome.storage.local.set({points_weight: parseInt(points.value, 10)});
     }
 
     function computeComments() {
@@ -28,6 +28,8 @@ domReady().then(function () {
         computeComments();
     });
 
-    points.value = localStorage['points_weight'];
-    computeComments();
+    chrome.storage.local.get(['points_weight'], function(response) {
+        points.value = response.points_weight || 50;
+        computeComments();
+    });
 });
