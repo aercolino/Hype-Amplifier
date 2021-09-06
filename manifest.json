@@ -36,7 +36,7 @@
     }
   ],
   "page_action": {
-    "default_title": "Hyped News",
+    "default_title": "Hyped News Amplifier",
     "default_icon": "images/hype-amplifier-19.png",
     "default_popup": "options.html"
   },
