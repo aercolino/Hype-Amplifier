@@ -11,16 +11,19 @@ chrome.extension.onRequest.addListener(function (request, sender, sendResponse) 
     sendResponse({ points_weight: localStorage['points_weight'] });
 });
 
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    switch (true) {
-        case tab.url.search('^https://news.ycombinator.com/') > -1:
-        case tab.url.search('^https://www.reddit.com/') > -1:
-            chrome.pageAction.show(tabId);
-            break;
-    }
-
-    // Tab.url (https://developer.chrome.com/docs/extensions/reference/tabs/#type-Tab)
-    // The last committed URL of the main frame of the tab. This property is only present if the
-    // extension's manifest includes the "tabs" permission and may be an empty string if the tab has
-    // not yet committed.
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.action.disable();
+    chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
+        chrome.declarativeContent.onPageChanged.addRules([{
+            conditions: [
+                new chrome.declarativeContent.PageStateMatcher({
+                    pageUrl: { hostEquals: 'news.ycombinator.com', schemes: ['https'] },
+                }),
+                new chrome.declarativeContent.PageStateMatcher({
+                    pageUrl: { hostEquals: 'www.reddit.com', schemes: ['https'] },
+                })
+            ],
+            actions: [new chrome.declarativeContent.ShowAction()],
+        }]);
+    });
 });

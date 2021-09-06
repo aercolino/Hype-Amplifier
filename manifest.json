@@ -35,13 +35,12 @@
       "run_at": "document_start"
     }
   ],
-  "page_action": {
+  "action": {
     "default_title": "Hyped News Amplifier",
     "default_icon": "images/hype-amplifier-19.png",
     "default_popup": "options.html"
   },
   "permissions": [
-    "tabs"
   ],
   "icons": {
     "16": "images/hype-amplifier-16.png",
