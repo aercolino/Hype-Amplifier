@@ -14,8 +14,13 @@
         "https://news.ycombinator.com/*"
       ],
       "js": [
+        "popper.min.js",
+        "tippy.umd.min.js",
         "amplifier.class.js",
         "content-hackernews.js"
+      ],
+      "css": [
+        "tippy.css"
       ],
       "run_at": "document_start"
     },
@@ -24,11 +29,13 @@
         "https://www.reddit.com/*"
       ],
       "js": [
+        "popper.min.js",
+        "tippy.umd.min.js",
         "amplifier.class.js",
         "content-reddit.js"
       ],
       "css": [
-        "content-reddit.css"
+        "tippy.css", "content-reddit.css"
       ],
       "run_at": "document_start"
     }
