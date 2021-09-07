@@ -29,6 +29,14 @@
 
     1. option checkbox "Use thermometer", whose change is immediately reflected in the page
 
+
+---
+
+
+### Additional functionalities
+
+I now think that these aren't that useful.
+
 6. Allow the user to navigate the current spread
 
     1. the user navigates a spread using the arrow buttons that appear when she hovers the title
