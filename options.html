@@ -32,24 +32,45 @@
         </p>
 
         <dl>
-            <dt><strong>Weights</strong></dt>
+            <dt><strong>Weights</strong>:
+                <input id="points_weight"
+                       type="number"
+                       value="50"
+                       min="0"
+                       max="100">% points
+                /
+                <input id="comments_weight"
+                       type="number"
+                       value="50"
+                       min="0"
+                       max="100"
+                       disabled>% comments
+            </dt>
             <dd>
                 <p>
-                    <input id="points_weight"
-                           type="number"
-                           value="50"
-                           min="0"
-                           max="100">% points
-                    /
-                    <input id="comments_weight"
-                           type="number"
-                           value="50"
-                           min="0"
-                           max="100"
-                           disabled>% comments
+                    If you choose 20% / 80%, then comments count 4 times as much as points.
+                    That would make messages with many comments more relevant than those with many points.
                 </p>
-                <p>If you chose 20% / 80%, then comments would count 4 times as much as points.<br>
-                    That would make posts with many comments quite more relevant than those with many points.
+            </dd>
+            <dt>
+                <input type="checkbox"> <strong>Pin / unpin messages</strong>
+            </dt>
+            <dd>
+                <p>
+                    When selected, this option allows you to pin a message so that all the others get
+                    redistributed as if the pinned message didn't exist. Unpin to make the message count again.
+                </p>
+            </dd>
+            <dt>
+                <strong>Use a thermometer</strong>
+                    <input type="checkbox"> on Hacker News
+                    &NonBreakingSpace;&NonBreakingSpace;&NonBreakingSpace;
+                    <input type="checkbox"> on Reddit
+            </dt>
+            <dd>
+                <p>
+                    When selected, this option allows you to see the hype on a thermometer rather than distributing messages.
+                    This is particularly useful on narrower themes / devices.
                 </p>
             </dd>
         </dl>
@@ -59,8 +80,8 @@
     <hr>
 
     <div class="smaller">
-        <div style="float: left;">2021 &copy; Andrea Ercolino, http://andowebsit.es</div>
-        <div style="float: right;">Source: https://github.com/aercolino/Hype-Amplifier</div>
+        <div style="float: left;">2021 &copy; <a href="http://mondotondo.com">Andrea Ercolino</a></div>
+        <div style="float: right;"><a href="https://github.com/aercolino/Hype-Amplifier">Contribute</a></div>
     </div>
 </body>
 
