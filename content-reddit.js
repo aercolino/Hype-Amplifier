@@ -1,6 +1,10 @@
 // Hyped News Amplifier - (C) Andrea Ercolino, http://andowebsit.es
 
-const MESSAGES_ON_THE_FIRST_PAGE = 25; // units
+const MESSAGES_ON_THE_FIRST_PAGE = {
+    card: 5,
+    classic: 25,
+    compact: 25,
+}; // units
 const WAIT_FOR_NEWS_DELAY = 500; // milliseconds
 
 class RedditAmplifier extends Amplifier {
@@ -36,7 +40,7 @@ function commentsElements() {
 
 function firstMessageElement() {
     const messages = document.querySelectorAll('div.Post');
-    const firstPageCompleted = messages.length >= MESSAGES_ON_THE_FIRST_PAGE;
+    const firstPageCompleted = messages.length >= MESSAGES_ON_THE_FIRST_PAGE[currentView()];
     if (firstPageCompleted) {
         return messages[0];
     }
@@ -52,7 +56,7 @@ function currentView() {
 }
 
 
-chrome.storage.local.get(['points_weight'], function(response) {
+chrome.storage.local.get(['points_weight'], function (response) {
     let newsContainer;
     let newsWidth;
     let observer;
