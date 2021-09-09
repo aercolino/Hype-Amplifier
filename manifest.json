@@ -37,7 +37,7 @@
       "css": [
         "tippy.css", "rating-stars.css", "content-reddit.css"
       ],
-      "run_at": "document_start"
+      "run_at": "document_idle"
     }
   ],
   "action": {
