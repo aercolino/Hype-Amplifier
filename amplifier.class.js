@@ -61,27 +61,30 @@ class Amplifier {
         this.ratios = getRatios(pointsRatio);
         this.pointsCountMax = Math.max(...this.pointsCountList);
         this.commentsCountMax = Math.max(...this.commentsCountList);
-        this.factor = this.maxAmplitude / (this.pointsCountMax * this.ratios.points + this.commentsCountMax * this.ratios.comments);
+        this.weightedWhole = this.pointsCountMax * this.ratios.points + this.commentsCountMax * this.ratios.comments;
     }
 
-    getAmplitude({ pointsCount, commentsCount }) {
-        var delta = {
-            points: this.pointsCountMax - pointsCount,
-            comments: this.commentsCountMax - commentsCount,
-        };
-        var result = Math.floor(this.factor * (delta.points * this.ratios.points + delta.comments * this.ratios.comments));
+    getPercentage({ pointsCount, commentsCount }) {
+        const weightedPartial = pointsCount * this.ratios.points + commentsCount * this.ratios.comments;
+        const result = weightedPartial / this.weightedWhole * 100;
         return result;
     }
 
-    amplifyItem(index, amplitude) {
+    getAmplitude({ pointsCount, commentsCount }) {
+        // A reverse fraction is needed because we want to move to the right the least hyped messages
+        const reverseFraction = 1 - this.getPercentage({ pointsCount, commentsCount }) / 100;
+        var result = reverseFraction * this.maxAmplitude;
+        return result;
+    }
+
+    amplifyItem(index, { pointsCount, commentsCount }) {
         throw new Error('Expected some implementation of this method');
     }
 
     amplifyList() {
         this.pointsCountList.forEach((pointsCount, index) => {
             const commentsCount = this.commentsCountList[index];
-            var amplitude = this.getAmplitude({ pointsCount, commentsCount });
-            this.amplifyItem(index, amplitude);
+            this.amplifyItem(index, { pointsCount, commentsCount });
         });
     }
 
