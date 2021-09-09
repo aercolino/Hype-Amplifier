@@ -24,7 +24,7 @@ function commentsElements() {
 }
 
 function firstMessageElement() {
-    const messages = document.querySelectorAll('div[data-click-id="body"]');
+    const messages = document.querySelectorAll('div.Post');
     const firstPageCompleted = messages.length >= MESSAGES_ON_THE_FIRST_PAGE;
     if (firstPageCompleted) {
         return messages[0];
@@ -75,7 +75,7 @@ chrome.storage.local.get(['points_weight'], function(response) {
     Amplifier.waitForElement(firstMessageElement)
         .then((firstMessage) => {
             // As of 2021-08, this is how you go from the message to the smallest news container in the Reddit page
-            newsContainer = firstMessage.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+            newsContainer = firstMessage.parentElement.parentElement.parentElement;
             newsWidth = firstMessage.clientWidth;
             observer = new MutationObserver(() => {
                 // This observer is only used to detect when the Reddit page starts loading a new block of news (infinite scrolling)
