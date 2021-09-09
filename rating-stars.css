@@ -1,0 +1,39 @@
+.rating span {
+  display: inline-block;
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.rating span::after {
+  content: '\2605';
+  font-size: 20px;
+  position: absolute;
+  color: #777;
+  opacity: 0.1;
+}
+
+.rating.cold span:nth-child(1)::after {
+  color: #7F8C8D;
+  opacity: 1;
+}
+
+.rating.cool span:nth-child(1)::after, .rating.cool span:nth-child(2)::after {
+  color: #3498DB;
+  opacity: 1;
+}
+
+.rating.warm span:nth-child(1)::after, .rating.warm span:nth-child(2)::after, .rating.warm span:nth-child(3)::after {
+  color: #2ECC71;
+  opacity: 1;
+}
+
+.rating.warmer span:nth-child(1)::after, .rating.warmer span:nth-child(2)::after, .rating.warmer span:nth-child(3)::after, .rating.warmer span:nth-child(4)::after {
+  color: orange;
+  opacity: 1;
+}
+
+.rating.hot span::after {
+  color: #E74C3C;
+  opacity: 1;
+}

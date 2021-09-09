@@ -7,10 +7,21 @@ class RedditAmplifier extends Amplifier {
     constructor(rows, pointsCountList, commentsCountList, maxAmplitude, pointsRatio) {
         super(pointsCountList, commentsCountList, maxAmplitude, pointsRatio);
         this.rows = rows;
+        this.currentView = currentView();
     }
 
-    amplifyItem(index, amplitude) {
+    amplifyItem(index, { pointsCount, commentsCount }) {
         const row = this.rows[index];
+        if (this.currentView === 'card') {
+            const title = row.querySelector(':scope h3');
+            const percentage = this.getPercentage({ pointsCount, commentsCount });
+            const stars = Amplifier.ratingStarsElement(percentage);
+            const previousRating = row.querySelector(':scope .rating');
+            if (previousRating) previousRating.remove();
+            title.before(stars);
+            return;
+        }
+        const amplitude = this.getAmplitude({ pointsCount, commentsCount });
         row.style.marginLeft = `${amplitude}px`;
     }
 }
@@ -34,6 +45,10 @@ function firstMessageElement() {
 
 function amplifiableElements() {
     return document.querySelectorAll('div[data-click-id="background"]');
+}
+
+function currentView() {
+    return document.querySelector('#LayoutSwitch--picker').textContent; // -> 'classic'
 }
 
 

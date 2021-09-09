@@ -51,6 +51,34 @@ function countList(list) {
     return result;
 }
 
+function createRatingStarsFragments() {
+    const ratingStarsHtml = {
+        cold: '<div class="rating cold"><span></span><span></span><span></span><span></span><span></span></div>',
+        cool: '<div class="rating cool"><span></span><span></span><span></span><span></span><span></span></div>',
+        warm: '<div class="rating warm"><span></span><span></span><span></span><span></span><span></span></div>',
+        warmer: '<div class="rating warmer"><span></span><span></span><span></span><span></span><span></span></div>',
+        hot: '<div class="rating hot"><span></span><span></span><span></span><span></span><span></span></div>',
+    };
+    const documentRange = document.createRange();
+    const entries = Object.entries(ratingStarsHtml).map(([key, value]) => ([key, documentRange.createContextualFragment(value)]));
+    const result = Object.fromEntries(entries);
+    return result;
+}
+
+const ratingStarsFragments = createRatingStarsFragments();
+
+function ratingStarsElement(percentage) {
+    let fragment;
+    switch (true) {
+        case percentage < 20: fragment = ratingStarsFragments.cold; break;
+        case percentage < 40: fragment = ratingStarsFragments.cool; break;
+        case percentage < 60: fragment = ratingStarsFragments.warm; break;
+        case percentage < 80: fragment = ratingStarsFragments.warmer; break;
+        case percentage >= 80: fragment = ratingStarsFragments.hot; break;
+    }
+    return fragment.cloneNode(true);
+}
+
 
 class Amplifier {
     constructor(pointsCountList, commentsCountList, maxAmplitude, pointsRatio) {
@@ -98,5 +126,9 @@ class Amplifier {
 
     static countList(...args) {
         return countList(...args);
+    }
+
+    static ratingStarsElement(...args) {
+        return ratingStarsElement(...args);
     }
 }
