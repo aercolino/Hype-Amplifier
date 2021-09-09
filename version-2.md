@@ -19,16 +19,32 @@
     3. as soon as a message is unpinned, a new spread is applied, like if that message existed again
     4. option checkbox "Display pin", whose change is immediately reflected in the page
 
-5. Allow the user to replace the usual spread with a progress bar, whose length equals the spread
+5. Allow the user to replace the usual spread with stars
 
-    Example
+    1. option checkbox "Use stars", whose change is immediately reflected in the page
 
-    ```html
-    <progress value="15" max="100" style="width: 600px;"></progress>
-    ```
+    **Details**
 
-    1. option checkbox "Use thermometer", whose change is immediately reflected in the page
+    1. "Use stars" not checked (default)
+        1. Reddit Card: Use the stars
+        2. Reddit Classic: Don't use the stars
+        3. Reddit Compact: Don't use the stars
+        4. Hacker News: Don't use the stars
 
+    2. "Use stars" checked
+        1. Reddit Card: Use the stars
+        2. Reddit Classic: Use the stars
+        3. Reddit Compact: Use the stars
+        4. Hacker News: Use the stars
+
+    **Style**
+
+    1. with a spread between 0% (included) and 20% (excluded): 1 blue star
+    2. with a spread between 20% (included) and 40% (excluded): 2 blue stars
+    3. with a spread between 40% (included) and 60% (excluded): 3 teal stars
+    4. with a spread between 60% (included) and 80% (excluded): 4 yellow stars
+    5. with a spread between 80% (included) and 100% (excluded): 5 green stars
+    6. with a spread of 100%: 5 red stars
 
 ---
 
