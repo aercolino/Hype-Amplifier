@@ -48,7 +48,8 @@
     "default_popup": "options.html"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "webNavigation"
   ],
   "icons": {
     "16": "images/hype-amplifier-16.png",

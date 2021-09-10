@@ -52,7 +52,9 @@ function amplifiableElements() {
 }
 
 function currentView() {
-    return document.querySelector('#LayoutSwitch--picker').textContent; // -> 'classic'
+    const viewSelectionElement = document.querySelector('#LayoutSwitch--picker');
+    return viewSelectionElement ? viewSelectionElement.textContent : 'card';
+    // No viewSelectionElement happens on users pages, which always use 'card'
 }
 
 
@@ -91,18 +93,27 @@ chrome.storage.local.get(['points_weight'], function (response) {
         }
     }
 
-    Amplifier.waitForElement(firstMessageElement)
-        .then((firstMessage) => {
-            // As of 2021-08, this is how you go from the message to the smallest news container in the Reddit page
-            newsContainer = firstMessage.parentElement.parentElement.parentElement;
-            newsWidth = firstMessage.clientWidth;
-            observer = new MutationObserver(() => {
-                // This observer is only used to detect when the Reddit page starts loading a new block of news (infinite scrolling)
-                observer.disconnect();
-                // From then on, we look for newly added news, between adjacent checks, at regular intervals of time
+    function setup() {
+        Amplifier.waitForElement(firstMessageElement)
+            .then((firstMessage) => {
+                // As of 2021-08, this is how you go from the message to the smallest news container in the Reddit page
+                newsContainer = firstMessage.parentElement.parentElement.parentElement;
+                newsWidth = firstMessage.clientWidth;
+                observer = new MutationObserver(() => {
+                    // This observer is only used to detect when the Reddit page starts loading a new block of news (infinite scrolling)
+                    observer.disconnect();
+                    // From then on, we look for newly added news, between adjacent checks, at regular intervals of time
+                    intervalId = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_DELAY);
+                });
+                // Initially, we look for newly added news. Here a timeout would be enough, but it's easier to re-use the interval setup
                 intervalId = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_DELAY);
             });
-            // Initially, we look for newly added news. Here a timeout would be enough, but it's easier to re-use the interval setup
-            intervalId = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_DELAY);
-        });
+    }
+
+    setup();
+
+    chrome.runtime.onMessage.addListener((request) => {
+        if (request !== 'runAgain') return;
+        setup();
+    });
 });

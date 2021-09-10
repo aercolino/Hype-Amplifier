@@ -17,3 +17,8 @@ chrome.runtime.onInstalled.addListener(() => {
         }]);
     });
 });
+
+chrome.webNavigation.onHistoryStateUpdated.addListener(({ tabId, url }) => {
+    if (!/\bwww\.reddit\.com\b/.test(url)) return;
+    chrome.tabs.sendMessage(tabId, 'runAgain');
+});
