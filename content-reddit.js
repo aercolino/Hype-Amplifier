@@ -39,22 +39,33 @@ function commentsElements(messagesListElement) {
 }
 
 function waitForMessagesListElement() {
-    function element() {
+    // Reddit DOM structure on 2021-08
+    const pathname = document.location.pathname;
+    const isUserOverviewPage = pathname.startsWith('/user/');
+    const isUserPostsPage = isUserOverviewPage && pathname.endsWith('/posts/');
+    const isUserCommentsPage = isUserOverviewPage && pathname.endsWith('/comments/');
+    function innermostMessagesList() {
         try {
-            const isUserPage = document.location.pathname.startsWith('/user/');
-            if (isUserPage) {
-                // A user can pin posts, which appear in a separate container, that we must skip.
-                // For that reason, it's much easier to get to the list in the following way
-                return document.querySelector('#ListingSort--SortPicker').parentElement.parentElement.parentElement.nextElementSibling;
+            // A user can pin posts, which appear in a separate container, that we have to skip
+            // It's much easier to walk to the list starting from #ListingSort--SortPicker
+            const ancestor = document.querySelector('#ListingSort--SortPicker').parentElement.parentElement.parentElement;
+            if (isUserPostsPage) {
+                return ancestor.nextElementSibling.nextElementSibling;
             }
-            // As of 2021-08, this is how you go from a message to the smallest news container in the Reddit page
+            if (isUserCommentsPage) {
+                return ancestor.nextElementSibling.nextElementSibling.firstChild;
+            }
+            if (isUserOverviewPage) {
+                return ancestor.nextElementSibling;
+            }
+            // The most internal list of messages in the Reddit page
             return document.querySelector('div.Post').parentElement.parentElement.parentElement;
         }
         catch (e) {
             return undefined;
         }
     }
-    return Amplifier.waitForElement(element);
+    return Amplifier.waitForElement(innermostMessagesList);
 }
 
 function waitForFirstMessageElement(messagesListElement) {
