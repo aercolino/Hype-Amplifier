@@ -149,6 +149,8 @@ chrome.storage.local.get(['points_weight'], function (response) {
 
     chrome.runtime.onMessage.addListener((request) => {
         if (request !== 'runAgain') return;
+        clearInterval(nextCheck);
+        messagesListObserver?.disconnect();
         setup();
     });
 });
