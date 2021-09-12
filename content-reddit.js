@@ -40,26 +40,25 @@ function commentsElements(messagesListElement) {
 
 function waitForMessagesListElement(pathname) {
     // Reddit DOM structure on 2021-08
-    const pathname = document.location.pathname;
-    const isUserOverviewPage = pathname.startsWith('/user/');
-    const isUserPostsPage = isUserOverviewPage && pathname.endsWith('/posts/');
-    const isUserCommentsPage = isUserOverviewPage && pathname.endsWith('/comments/');
+    const isUserPage = pathname.startsWith('/user/');
+    const isUserPostsPage = isUserPage && pathname.endsWith('/posts/');
+    const isUserCommentsPage = isUserPage && pathname.endsWith('/comments/');
     function innermostMessagesList() {
         try {
-            // A user can pin posts, which appear in a separate container, that we have to skip
-            // It's much easier to walk to the list starting from #ListingSort--SortPicker
-            const ancestor = document.querySelector('#ListingSort--SortPicker').parentElement.parentElement.parentElement;
-            if (isUserPostsPage) {
-                return ancestor.nextElementSibling.nextElementSibling;
+            if (! isUserPage || isUserPostsPage || isUserCommentsPage) {
+                return document.querySelector('div.Post')
+                    .parentElement.parentElement.parentElement;
             }
-            if (isUserCommentsPage) {
-                return ancestor.nextElementSibling.nextElementSibling.firstChild;
+            if (isUserPage) {
+                // 1- A user's pinned posts will appear in the overview page
+                // 2- We don't want to compute the hype of pinned posts
+                // 3- The difference between pinned and ordinary posts is that
+                // the latter have a child with data-click-id="background" 
+                return document.querySelector('div.Post>[data-click-id="background"]')
+                    .parentElement.parentElement.parentElement
+                    .parentElement.parentElement.parentElement;
             }
-            if (isUserOverviewPage) {
-                return ancestor.nextElementSibling;
-            }
-            // The most internal list of messages in the Reddit page
-            return document.querySelector('div.Post').parentElement.parentElement.parentElement;
+            // All other cases, if any, will be caught by the timeout in waitForElement
         }
         catch (e) {
             return undefined;
