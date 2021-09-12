@@ -23,7 +23,7 @@ function parseCount(scrapedText) {
     return result;
 }
 
-function waitForElement(pathname, selectorFn, { delay, maxWait } = { delay: 100, maxWait: 30000 }) {
+function waitForElement(pathname, selectorFn, { delay, maxWait } = { delay: 300, maxWait: 30000 }) {
     return new Promise((resolve, reject) => {
         let element = selectorFn();
         if (element) {
