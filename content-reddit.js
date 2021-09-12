@@ -38,7 +38,7 @@ function commentsElements(messagesListElement) {
     return messagesListElement.querySelectorAll(':scope [data-click-id="comments"]');
 }
 
-function waitForMessagesListElement() {
+function waitForMessagesListElement(pathname) {
     // Reddit DOM structure on 2021-08
     const pathname = document.location.pathname;
     const isUserOverviewPage = pathname.startsWith('/user/');
@@ -65,11 +65,11 @@ function waitForMessagesListElement() {
             return undefined;
         }
     }
-    return Amplifier.waitForElement(innermostMessagesList);
+    return Amplifier.waitForElement(pathname, innermostMessagesList);
 }
 
-function waitForFirstMessageElement(messagesListElement) {
-    function element() {
+function waitForFirstMessageElement(pathname, messagesListElement) {
+    function firstMessage() {
         const messages = messagesListElement.children;
         const firstPageCompleted = messages.length >= MESSAGES_ON_THE_FIRST_PAGE[currentView()];
         if (firstPageCompleted) {
@@ -77,7 +77,7 @@ function waitForFirstMessageElement(messagesListElement) {
         }
         return undefined;
     }
-    return Amplifier.waitForElement(element);
+    return Amplifier.waitForElement(pathname, firstMessage);
 }
 
 function amplifiableElements() {
@@ -126,11 +126,11 @@ chrome.storage.local.get(['points_weight'], function (response) {
         }
     }
 
-    function setup() {
-        waitForMessagesListElement()
+    function setup(pathname) {
+        waitForMessagesListElement(pathname)
             .then((element) => {
                 messagesListElement = element;
-                return waitForFirstMessageElement(element);
+                return waitForFirstMessageElement(pathname, element);
             })
             .then((firstMessage) => {
                 messagesWidth = firstMessage.clientWidth;
@@ -142,15 +142,19 @@ chrome.storage.local.get(['points_weight'], function (response) {
                 });
                 // Initially, we look for newly added news. Here a timeout would be enough, but it's easier to re-use the interval setup
                 nextCheck = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_DELAY);
+            })
+            .catch((reason) => {
+                console.log(`Failed setup for ${pathname} because`, reason.message ?? reason);
             });
     }
 
-    setup();
+    setup(document.location.pathname);
 
     chrome.runtime.onMessage.addListener((request) => {
         if (request !== 'runAgain') return;
         clearInterval(nextCheck);
         messagesListObserver?.disconnect();
-        setup();
+        previousMessagesCount = 0;
+        setup(document.location.pathname);
     });
 });
