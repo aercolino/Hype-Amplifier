@@ -42,10 +42,9 @@ function waitForMessagesListElement(pathname) {
     // Reddit DOM structure on 2021-08
     const isUserPage = pathname.startsWith('/user/');
     const isUserPostsPage = isUserPage && pathname.endsWith('/posts/');
-    const isUserCommentsPage = isUserPage && pathname.endsWith('/comments/');
     function innermostMessagesList() {
         try {
-            if (! isUserPage || isUserPostsPage || isUserCommentsPage) {
+            if (! isUserPage || isUserPostsPage) {
                 return document.querySelector('div.Post')
                     .parentElement.parentElement.parentElement;
             }
@@ -58,7 +57,7 @@ function waitForMessagesListElement(pathname) {
                     .parentElement.parentElement.parentElement
                     .parentElement.parentElement.parentElement;
             }
-            // All other cases, if any, will be caught by the timeout in waitForElement
+            // All other cases, will be caught by the timeout in waitForElement
         }
         catch (e) {
             return undefined;
