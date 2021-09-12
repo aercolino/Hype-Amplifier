@@ -14,8 +14,8 @@
 
 5. On Reddit, use 5 stars to represent hype, not the spread; on Hacker News, keep using the spread
 
-    1. Reddit: Use the stars
-    2. Hacker News: Don't use the stars
+    1. Reddit: Use the stars, except in Reddit Home, with a _compact_ view
+    2. Hacker News: Use the spread
 
     **Style**
 
@@ -26,8 +26,9 @@
     5. with a spread between 80% (included) and 100% (excluded): 5 blue stars
     6. with a spread of 100%: 5 red stars
 
-> Pending here, is to always use stars on Reddit Home, independently from the current view
+> Pending here, is to use stars also on the Reddit Home with a _classic_ view
 > After doing that, I can remove the `content-reddit.css` file, which becomes obsolete
+> That is due to the fact that in the _compact_ view, the title readjust to its container, so that CSS is useless
 
 
 ---
