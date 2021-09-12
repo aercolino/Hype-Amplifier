@@ -23,13 +23,23 @@ function parseCount(scrapedText) {
     return result;
 }
 
-function waitForElement(selectorFn, { delay } = { delay: 100 }) {
-    return new Promise((resolve) => {
+function waitForElement(pathname, selectorFn, { delay, maxWait } = { delay: 100, maxWait: 30000 }) {
+    return new Promise((resolve, reject) => {
         let element = selectorFn();
         if (element) {
             return resolve(element);
         }
+        const name = selectorFn.name ?? '(anonymous)';
+        const waitingSince = new Date();
         const intervalId = setInterval(() => {
+            if (document.location.pathname !== pathname) {
+                clearInterval(intervalId);
+                reject(new Error('Abort'));
+            }
+            if (new Date() - waitingSince >= maxWait) {
+                clearInterval(intervalId);
+                reject(new Error('Timeout'));
+            }
             element = selectorFn();
             if (element) {
                 clearInterval(intervalId);
