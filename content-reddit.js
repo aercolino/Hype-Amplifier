@@ -27,6 +27,7 @@ class RedditAmplifier extends Amplifier {
         }
         const amplitude = this.getAmplitude({ pointsCount, commentsCount });
         row.style.marginLeft = `${amplitude}px`;
+        row.classList.add('hna-spread');
     }
 }
 
