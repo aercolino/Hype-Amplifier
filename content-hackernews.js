@@ -64,7 +64,7 @@ chrome.storage.local.get(['points_weight'], function(response) {
         }
     }
 
-    Amplifier.waitForElement(firstMessageElement)
+    Amplifier.waitForElement(document.location.pathname, firstMessageElement)
         .then((firstMessage) => {
             const tableWidth = document.getElementById('pagespace').clientWidth;
             const messageNumberWidth = firstMessage.querySelector('.title').clientWidth;
