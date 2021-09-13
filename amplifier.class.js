@@ -63,11 +63,11 @@ function countList(list) {
 
 function createRatingStarsFragments() {
     const ratingStarsHtml = {
-        cold: '<div class="rating cold"><span></span><span></span><span></span><span></span><span></span></div>',
-        cool: '<div class="rating cool"><span></span><span></span><span></span><span></span><span></span></div>',
-        warm: '<div class="rating warm"><span></span><span></span><span></span><span></span><span></span></div>',
-        warmer: '<div class="rating warmer"><span></span><span></span><span></span><span></span><span></span></div>',
-        hot: '<div class="rating hot"><span></span><span></span><span></span><span></span><span></span></div>',
+        cold: '<div class="hna-rating cold"><span></span><span></span><span></span><span></span><span></span></div>',
+        cool: '<div class="hna-rating cool"><span></span><span></span><span></span><span></span><span></span></div>',
+        warm: '<div class="hna-rating warm"><span></span><span></span><span></span><span></span><span></span></div>',
+        warmer: '<div class="hna-rating warmer"><span></span><span></span><span></span><span></span><span></span></div>',
+        hot: '<div class="hna-rating hot"><span></span><span></span><span></span><span></span><span></span></div>',
     };
     const documentRange = document.createRange();
     const entries = Object.entries(ratingStarsHtml).map(([key, value]) => ([key, documentRange.createContextualFragment(value)]));
