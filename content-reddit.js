@@ -8,24 +8,24 @@ const MESSAGES_ON_THE_FIRST_PAGE = {
 const WAIT_FOR_NEWS_DELAY = 500; // milliseconds
 
 class RedditAmplifier extends Amplifier {
-    constructor(rows, pointsCountList, commentsCountList, maxAmplitude, pointsRatio) {
-        super(pointsCountList, commentsCountList, maxAmplitude, pointsRatio);
+    constructor(pointsCountList, commentsCountList, pointsRatio, { rows, maxWidth }) {
+        super(pointsCountList, commentsCountList, pointsRatio);
         this.rows = rows;
+        this.maxWidth = maxWidth;
         this.currentView = RedditAmplifier.currentView();
     }
 
-    amplifyItem(index, { pointsCount, commentsCount }) {
+    amplifyItem(index, percentage) {
         const row = this.rows[index];
         if (['card', 'classic'].includes(this.currentView)) {
             const title = row.querySelector(':scope h3');
-            const percentage = this.getPercentage({ pointsCount, commentsCount });
             const stars = Amplifier.ratingStarsElement(percentage);
             const previousRating = row.querySelector(':scope .hna-rating');
             if (previousRating) previousRating.remove();
             title.before(stars);
             return;
         }
-        const amplitude = this.getAmplitude({ pointsCount, commentsCount });
+        const amplitude = Amplifier.getAmplitude({ percentage, maxAmplitude: this.maxWidth });
         row.style.marginLeft = `${amplitude}px`;
         row.classList.add('hna-spread');
     }
@@ -104,7 +104,7 @@ chrome.storage.local.get(['points_weight'], function (response) {
 
         const pointsCountList = Amplifier.countList(RedditAmplifier.pointsElements(messagesListElement));
         const commentsCountList = Amplifier.countList(RedditAmplifier.commentsElements(messagesListElement));
-        const amp = new RedditAmplifier(rows, pointsCountList, commentsCountList, messagesWidth, response && response.points_weight);
+        const amp = new RedditAmplifier(pointsCountList, commentsCountList, response && response.points_weight, { rows, maxWidth: messagesWidth });
         amp.amplifyList();
     }
 

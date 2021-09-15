@@ -4,10 +4,9 @@ class Amplifier {
     static goldenRatio = 0.618;
     static ratingStarsFragments = this.createRatingStarsFragments();
 
-    constructor(pointsCountList, commentsCountList, maxAmplitude, pointsRatio) {
+    constructor(pointsCountList, commentsCountList, pointsRatio) {
         this.pointsCountList = pointsCountList;
         this.commentsCountList = commentsCountList;
-        this.maxAmplitude = maxAmplitude * Amplifier.goldenRatio;
 
         this.ratios = Amplifier.getRatios(pointsRatio);
         this.pointsCountMax = Math.max(...this.pointsCountList);
@@ -21,21 +20,22 @@ class Amplifier {
         return result;
     }
 
-    getAmplitude({ pointsCount, commentsCount }) {
+    static getAmplitude({percentage, maxAmplitude}) {
         // A reverse fraction is needed because we want to move to the right the least hyped messages
-        const reverseFraction = 1 - this.getPercentage({ pointsCount, commentsCount }) / 100;
-        var result = reverseFraction * this.maxAmplitude;
+        const reverseFraction = 1 - percentage / 100;
+        var result = reverseFraction * maxAmplitude * Amplifier.goldenRatio;
         return result;
     }
 
-    amplifyItem(index, { pointsCount, commentsCount }) {
+    amplifyItem(index, percentage) {
         throw new Error('Expected some implementation of this method');
     }
 
     amplifyList() {
         this.pointsCountList.forEach((pointsCount, index) => {
             const commentsCount = this.commentsCountList[index];
-            this.amplifyItem(index, { pointsCount, commentsCount });
+            const percentage = this.getPercentage({ pointsCount, commentsCount });
+            this.amplifyItem(index, percentage);
         });
     }
 

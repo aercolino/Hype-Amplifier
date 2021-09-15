@@ -3,17 +3,18 @@
 const MESSAGES_ON_THE_FIRST_PAGE = 30; // units
 
 class HackerNewsAmplifier extends Amplifier {
-    constructor(rows, pointsCountList, commentsCountList, maxAmplitude, pointsRatio) {
-        super(pointsCountList, commentsCountList, maxAmplitude, pointsRatio);
+    constructor(pointsCountList, commentsCountList, pointsRatio, { rows, maxWidth }) {
+        super(pointsCountList, commentsCountList, pointsRatio);
         this.rows = rows;
+        this.maxWidth = maxWidth;
     }
 
-    amplifyItem(index, { pointsCount, commentsCount }) {
+    amplifyItem(index, percentage) {
         const title = this.rows[index];
         // We get to the byline like below because we want to skip Y Combinator announcements
         // and bylines are not siblings to titles but cousins!
         const byline = title.parentElement.nextElementSibling.querySelector('.subtext');
-        const amplitude = this.getAmplitude({ pointsCount, commentsCount });
+        const amplitude = Amplifier.getAmplitude({ percentage, maxAmplitude: this.maxWidth });
         title.style.paddingLeft = `${amplitude}px`;
         byline.style.paddingLeft = `${amplitude}px`;
     }
@@ -51,7 +52,7 @@ chrome.storage.local.get(['points_weight'], function(response) {
 
         const pointsCountList = Amplifier.countList(pointsElements());
         const commentsCountList = Amplifier.countList(commentsElements());
-        const amp = new HackerNewsAmplifier(rows, pointsCountList, commentsCountList, newsWidth, response && response.points_weight);
+        const amp = new HackerNewsAmplifier(pointsCountList, commentsCountList, response && response.points_weight, { rows, maxWidth: newsWidth });
         amp.amplifyList();
     }
 
