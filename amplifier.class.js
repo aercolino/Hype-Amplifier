@@ -20,13 +20,6 @@ class Amplifier {
         return result;
     }
 
-    static getAmplitude({percentage, maxAmplitude}) {
-        // A reverse fraction is needed because we want to move to the right the least hyped messages
-        const reverseFraction = 1 - percentage / 100;
-        var result = reverseFraction * maxAmplitude * Amplifier.goldenRatio;
-        return result;
-    }
-
     amplifyItem(index, percentage) {
         throw new Error('Expected some implementation of this method');
     }
@@ -110,6 +103,13 @@ class Amplifier {
         const documentRange = document.createRange();
         const entries = Object.entries(ratingStarsHtml).map(([key, value]) => ([key, documentRange.createContextualFragment(value)]));
         const result = Object.fromEntries(entries);
+        return result;
+    }
+
+    static getAmplitude({percentage, maxAmplitude}) {
+        // A reverse fraction is needed because we want to move to the right the least hyped messages
+        const reverseFraction = 1 - percentage / 100;
+        var result = reverseFraction * maxAmplitude * Amplifier.goldenRatio;
         return result;
     }
 
