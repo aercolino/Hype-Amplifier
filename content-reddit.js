@@ -19,9 +19,9 @@ class RedditAmplifier extends Amplifier {
         const row = this.rows[index];
         if (['card', 'classic'].includes(this.currentView)) {
             const title = row.querySelector(':scope h3');
-            const stars = Amplifier.ratingStarsElement(percentage);
             const previousRating = row.querySelector(':scope .hna-rating');
             if (previousRating) previousRating.remove();
+            const stars = Amplifier.getStars(percentage);
             title.before(stars);
             return;
         }

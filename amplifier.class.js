@@ -113,7 +113,7 @@ class Amplifier {
         return result;
     }
 
-    static ratingStarsElement(percentage) {
+    static getStars(percentage) {
         let fragment;
         switch (true) {
             case percentage === 0: fragment = this.ratingStarsFragments.null; break;
