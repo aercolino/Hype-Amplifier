@@ -16,7 +16,7 @@ class RedditAmplifier extends Amplifier {
 
     amplifyItem(index, { pointsCount, commentsCount }) {
         const row = this.rows[index];
-        if (this.currentView === 'card') {
+        if (['card', 'classic'].includes(this.currentView)) {
             const title = row.querySelector(':scope h3');
             const percentage = this.getPercentage({ pointsCount, commentsCount });
             const stars = Amplifier.ratingStarsElement(percentage);
