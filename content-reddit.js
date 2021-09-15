@@ -20,7 +20,7 @@ class RedditAmplifier extends Amplifier {
             const title = row.querySelector(':scope h3');
             const percentage = this.getPercentage({ pointsCount, commentsCount });
             const stars = Amplifier.ratingStarsElement(percentage);
-            const previousRating = row.querySelector(':scope .rating');
+            const previousRating = row.querySelector(':scope .hna-rating');
             if (previousRating) previousRating.remove();
             title.before(stars);
             return;
