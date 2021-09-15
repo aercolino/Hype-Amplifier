@@ -36,8 +36,7 @@
       ],
       "css": [
         "tippy.css",
-        "rating-stars.css",
-        "content-reddit.css"
+        "rating-stars.css"
       ],
       "run_at": "document_idle"
     }
