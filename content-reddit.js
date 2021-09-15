@@ -69,7 +69,7 @@ class RedditAmplifier extends Amplifier {
     static waitForFirstMessageElement(pathname, messagesListElement) {
         function firstMessage() {
             const messages = messagesListElement.children;
-            const firstPageCompleted = messages.length >= MESSAGES_ON_THE_FIRST_PAGE[currentView()];
+            const firstPageCompleted = messages.length >= MESSAGES_ON_THE_FIRST_PAGE[RedditAmplifier.currentView()];
             if (firstPageCompleted) {
                 return messages[0];
             }
