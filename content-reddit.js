@@ -11,7 +11,7 @@ class RedditAmplifier extends Amplifier {
     constructor(rows, pointsCountList, commentsCountList, maxAmplitude, pointsRatio) {
         super(pointsCountList, commentsCountList, maxAmplitude, pointsRatio);
         this.rows = rows;
-        this.currentView = currentView();
+        this.currentView = RedditAmplifier.currentView();
     }
 
     amplifyItem(index, { pointsCount, commentsCount }) {
@@ -29,64 +29,65 @@ class RedditAmplifier extends Amplifier {
         row.style.marginLeft = `${amplitude}px`;
         row.classList.add('hna-spread');
     }
-}
 
-function pointsElements(messagesListElement) {
-    return messagesListElement.querySelectorAll(':scope [data-click-id="upvote"][id]~div');
-}
+    static pointsElements(messagesListElement) {
+        return messagesListElement.querySelectorAll(':scope [data-click-id="upvote"][id]~div');
+    }
 
-function commentsElements(messagesListElement) {
-    return messagesListElement.querySelectorAll(':scope [data-click-id="comments"]');
-}
+    static commentsElements(messagesListElement) {
+        return messagesListElement.querySelectorAll(':scope [data-click-id="comments"]');
+    }
 
-function waitForMessagesListElement(pathname) {
-    // Reddit DOM structure on 2021-08
-    const isUserPage = pathname.startsWith('/user/');
-    const isUserPostsPage = isUserPage && pathname.endsWith('/posts/');
-    function innermostMessagesList() {
-        try {
-            if (! isUserPage || isUserPostsPage) {
-                return document.querySelector('div.Post')
-                    .parentElement.parentElement.parentElement;
+    static waitForMessagesListElement(pathname) {
+        // Reddit DOM structure on 2021-08
+        const isUserPage = pathname.startsWith('/user/');
+        const isUserPostsPage = isUserPage && pathname.endsWith('/posts/');
+        function innermostMessagesList() {
+            try {
+                if (! isUserPage || isUserPostsPage) {
+                    return document.querySelector('div.Post')
+                        .parentElement.parentElement.parentElement;
+                }
+                if (isUserPage) {
+                    // 1- A user's pinned posts will appear in the overview page
+                    // 2- We don't want to compute the hype of pinned posts
+                    // 3- The difference between pinned and ordinary posts is that
+                    // the latter have a child with data-click-id="background"
+                    return document.querySelector('div.Post>[data-click-id="background"]')
+                        .parentElement.parentElement.parentElement
+                        .parentElement.parentElement.parentElement;
+                }
+                // All other cases, will be caught by the timeout in waitForElement
             }
-            if (isUserPage) {
-                // 1- A user's pinned posts will appear in the overview page
-                // 2- We don't want to compute the hype of pinned posts
-                // 3- The difference between pinned and ordinary posts is that
-                // the latter have a child with data-click-id="background" 
-                return document.querySelector('div.Post>[data-click-id="background"]')
-                    .parentElement.parentElement.parentElement
-                    .parentElement.parentElement.parentElement;
+            catch (e) {
+                return undefined;
             }
-            // All other cases, will be caught by the timeout in waitForElement
         }
-        catch (e) {
+        return Amplifier.waitForElement(pathname, innermostMessagesList);
+    }
+    
+    static waitForFirstMessageElement(pathname, messagesListElement) {
+        function firstMessage() {
+            const messages = messagesListElement.children;
+            const firstPageCompleted = messages.length >= MESSAGES_ON_THE_FIRST_PAGE[currentView()];
+            if (firstPageCompleted) {
+                return messages[0];
+            }
             return undefined;
         }
+        return Amplifier.waitForElement(pathname, firstMessage);
     }
-    return Amplifier.waitForElement(pathname, innermostMessagesList);
-}
 
-function waitForFirstMessageElement(pathname, messagesListElement) {
-    function firstMessage() {
-        const messages = messagesListElement.children;
-        const firstPageCompleted = messages.length >= MESSAGES_ON_THE_FIRST_PAGE[currentView()];
-        if (firstPageCompleted) {
-            return messages[0];
-        }
-        return undefined;
+    static amplifiableElements() {
+        return document.querySelectorAll('div[data-click-id="background"]');
     }
-    return Amplifier.waitForElement(pathname, firstMessage);
-}
 
-function amplifiableElements() {
-    return document.querySelectorAll('div[data-click-id="background"]');
-}
+    static currentView() {
+        const viewSelectionElement = document.querySelector('#LayoutSwitch--picker');
+        return viewSelectionElement ? viewSelectionElement.textContent : 'card';
+        // No viewSelectionElement exists on users pages, which always use 'card'
+    }
 
-function currentView() {
-    const viewSelectionElement = document.querySelector('#LayoutSwitch--picker');
-    return viewSelectionElement ? viewSelectionElement.textContent : 'card';
-    // No viewSelectionElement happens on users pages, which always use 'card'
 }
 
 
@@ -98,11 +99,11 @@ chrome.storage.local.get(['points_weight'], function (response) {
     let nextCheck;
 
     function amplification() {
-        const rows = amplifiableElements();
+        const rows = RedditAmplifier.amplifiableElements();
         if (rows.length === 0) return;
 
-        const pointsCountList = Amplifier.countList(pointsElements(messagesListElement));
-        const commentsCountList = Amplifier.countList(commentsElements(messagesListElement));
+        const pointsCountList = Amplifier.countList(RedditAmplifier.pointsElements(messagesListElement));
+        const commentsCountList = Amplifier.countList(RedditAmplifier.commentsElements(messagesListElement));
         const amp = new RedditAmplifier(rows, pointsCountList, commentsCountList, messagesWidth, response && response.points_weight);
         amp.amplifyList();
     }
@@ -126,10 +127,10 @@ chrome.storage.local.get(['points_weight'], function (response) {
     }
 
     function setup(pathname) {
-        waitForMessagesListElement(pathname)
+        RedditAmplifier.waitForMessagesListElement(pathname)
             .then((element) => {
                 messagesListElement = element;
-                return waitForFirstMessageElement(pathname, element);
+                return RedditAmplifier.waitForFirstMessageElement(pathname, element);
             })
             .then((firstMessage) => {
                 messagesWidth = firstMessage.clientWidth;
