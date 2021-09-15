@@ -100,6 +100,7 @@ class Amplifier {
 
     static createRatingStarsFragments() {
         const ratingStarsHtml = {
+            null: '<div class="hna-rating null"><span></span><span></span><span></span><span></span><span></span></div>',
             cold: '<div class="hna-rating cold"><span></span><span></span><span></span><span></span><span></span></div>',
             cool: '<div class="hna-rating cool"><span></span><span></span><span></span><span></span><span></span></div>',
             warm: '<div class="hna-rating warm"><span></span><span></span><span></span><span></span><span></span></div>',
@@ -115,6 +116,7 @@ class Amplifier {
     static ratingStarsElement(percentage) {
         let fragment;
         switch (true) {
+            case percentage === 0: fragment = this.ratingStarsFragments.null; break;
             case percentage < 20: fragment = this.ratingStarsFragments.cold; break;
             case percentage < 40: fragment = this.ratingStarsFragments.cool; break;
             case percentage < 60: fragment = this.ratingStarsFragments.warm; break;
