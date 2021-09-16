@@ -13,7 +13,7 @@ class HackerNewsAmplifier extends Amplifier {
         const title = this.rows[index];
         // We get to the byline like below because we want to skip Y Combinator announcements
         // and bylines are not siblings to titles but cousins!
-        const byline = title.parentElement.nextElementSibling.querySelector('.subtext');
+        const byline = title.parentElement.nextElementSibling.querySelector(':scope .subtext');
         const amplitude = Amplifier.getAmplitude({ percentage, maxAmplitude: this.maxWidth });
         title.style.paddingLeft = `${amplitude}px`;
         byline.style.paddingLeft = `${amplitude}px`;
@@ -65,8 +65,8 @@ chrome.storage.local.get(['points_weight'], function(response) {
         .then(() => {
             const firstMessage = document.querySelector('td:nth-child(3).title');
             const tableWidth = document.getElementById('pagespace').clientWidth;
-            const messageNumberWidth = firstMessage.querySelector('.title').clientWidth;
-            const upButtonWidth = firstMessage.querySelector('.votelinks').clientWidth;
+            const messageNumberWidth = firstMessage.querySelector(':scope .title').clientWidth;
+            const upButtonWidth = firstMessage.querySelector(':scope .votelinks').clientWidth;
             newsWidth = tableWidth - upButtonWidth - messageNumberWidth;
             amplify();
         });
