@@ -53,13 +53,16 @@ class Amplifier {
         return result;
     }
 
-    static waitForElement(pathname, selectorFn, { delay, maxWait } = { delay: 300, maxWait: 30000 }) {
+    static waitForCondition(pathname, conditionCallback, { delay, maxWait } = { delay: 300, maxWait: 30000 }) {
+        if (typeof conditionCallback !== 'function') {
+            throw new Error('Expected a condition callback');
+        }
         return new Promise((resolve, reject) => {
-            let element = selectorFn();
-            if (element) {
-                return resolve(element);
+            let result = conditionCallback();
+            if (result) {
+                return resolve(result);
             }
-            const name = selectorFn.name ?? '(anonymous)';
+            const name = conditionCallback.name ?? '(anonymous)';
             const waitingSince = new Date();
             const intervalId = setInterval(() => {
                 if (document.location.pathname !== pathname) {
@@ -70,10 +73,10 @@ class Amplifier {
                     clearInterval(intervalId);
                     reject(new Error(`Timeout ${name}`));
                 }
-                element = selectorFn();
-                if (element) {
+                result = conditionCallback();
+                if (result) {
                     clearInterval(intervalId);
-                    resolve(element);
+                    resolve(result);
                 }
             }, delay);
         });

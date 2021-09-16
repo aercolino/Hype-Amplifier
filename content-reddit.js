@@ -57,20 +57,20 @@ class RedditAmplifier extends Amplifier {
                         .parentElement.parentElement.parentElement
                         .parentElement.parentElement.parentElement;
                 }
-                // All other cases, will be caught by the timeout in waitForElement
+                // All other cases, will be caught by the timeout in waitForCondition
             }
             catch (e) {
                 return undefined;
             }
         }
-        return Amplifier.waitForElement(pathname, innermostMessagesList);
+        return Amplifier.waitForCondition(pathname, innermostMessagesList);
     }
 
     static waitForFirstPage(pathname, messagesListElement) {
         function firstPage() {
             return messagesListElement.childElementCount >= MESSAGES_ON_THE_FIRST_PAGE[RedditAmplifier.currentView()];
         }
-        return Amplifier.waitForElement(pathname, firstPage);
+        return Amplifier.waitForCondition(pathname, firstPage);
     }
 
     static amplifiableElements() {

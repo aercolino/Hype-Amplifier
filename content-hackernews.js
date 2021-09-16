@@ -61,7 +61,7 @@ chrome.storage.local.get(['points_weight'], function(response) {
         }
     }
 
-    Amplifier.waitForElement(document.location.pathname, firstPage)
+    Amplifier.waitForCondition(document.location.pathname, firstPage)
         .then(() => {
             const firstMessage = document.querySelector('td:nth-child(3).title');
             const tableWidth = document.getElementById('pagespace').clientWidth;
