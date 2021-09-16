@@ -63,8 +63,8 @@ chrome.storage.local.get(['points_weight'], function(response) {
 
     Amplifier.waitForCondition(document.location.pathname, HackerNewsAmplifier.firstPageIsAvailable)
         .then(() => {
-            const firstMessage = document.querySelector('td:nth-child(3).title');
             const tableWidth = document.getElementById('pagespace').clientWidth;
+            const firstMessage = document.querySelector('td:nth-child(3).title').parentElement;
             const messageNumberWidth = firstMessage.querySelector(':scope .title').clientWidth;
             const upButtonWidth = firstMessage.querySelector(':scope .votelinks').clientWidth;
             newsWidth = tableWidth - upButtonWidth - messageNumberWidth;
