@@ -42,7 +42,7 @@ class RedditAmplifier extends Amplifier {
         // Reddit DOM structure on 2021-08
         const isUserPage = pathname.startsWith('/user/');
         const isUserPostsPage = isUserPage && pathname.endsWith('/posts/');
-        function innermostMessagesList() {
+        function messagesListIsAvailable() {
             try {
                 if (! isUserPage || isUserPostsPage) {
                     return document.querySelector('div.Post')
@@ -63,14 +63,14 @@ class RedditAmplifier extends Amplifier {
                 return undefined;
             }
         }
-        return Amplifier.waitForCondition(pathname, innermostMessagesList);
+        return Amplifier.waitForCondition(pathname, messagesListIsAvailable);
     }
 
     static waitForFirstPage(pathname, messagesListElement) {
-        function firstPage() {
+        function firstPageIsAvailable() {
             return messagesListElement.childElementCount >= MESSAGES_ON_THE_FIRST_PAGE[RedditAmplifier.currentView()];
         }
-        return Amplifier.waitForCondition(pathname, firstPage);
+        return Amplifier.waitForCondition(pathname, firstPageIsAvailable);
     }
 
     static amplifiableElements() {

@@ -28,7 +28,7 @@ function commentsElements() {
     return document.querySelectorAll('.subtext :nth-child(6)');
 }
 
-function firstPage() {
+function firstPageIsAvailable() {
     const messages = document.querySelectorAll('td:nth-child(3).title');
     return messages.length >= MESSAGES_ON_THE_FIRST_PAGE;
 }
@@ -61,7 +61,7 @@ chrome.storage.local.get(['points_weight'], function(response) {
         }
     }
 
-    Amplifier.waitForCondition(document.location.pathname, firstPage)
+    Amplifier.waitForCondition(document.location.pathname, firstPageIsAvailable)
         .then(() => {
             const firstMessage = document.querySelector('td:nth-child(3).title');
             const tableWidth = document.getElementById('pagespace').clientWidth;
