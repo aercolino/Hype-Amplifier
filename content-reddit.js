@@ -8,11 +8,11 @@ const MESSAGES_ON_THE_FIRST_PAGE = {
 const WAIT_FOR_NEWS_DELAY = 500; // milliseconds
 
 class RedditAmplifier extends Amplifier {
-    constructor(pointsRatio, { rows, maxWidth }) {
-        super(pointsRatio);
+    amplifyList({ pointsCountList, commentsCountList, rows, maxWidth }) {
         this.rows = rows;
         this.maxWidth = maxWidth;
         this.currentView = RedditAmplifier.currentView();
+        super.amplifyList({ pointsCountList, commentsCountList });
     }
 
     amplifyItem(index, percentage) {
@@ -99,8 +99,8 @@ chrome.storage.local.get(['points_weight'], function (response) {
 
         const pointsCountList = Amplifier.countList(RedditAmplifier.pointsElements(messagesListElement));
         const commentsCountList = Amplifier.countList(RedditAmplifier.commentsElements(messagesListElement));
-        const amp = new RedditAmplifier(response.points_weight, { rows, maxWidth: messagesWidth });
-        amp.amplifyList({ pointsCountList, commentsCountList });
+        const amp = new RedditAmplifier(response.points_weight);
+        amp.amplifyList({ pointsCountList, commentsCountList, rows, maxWidth: messagesWidth });
     }
 
     function amplifyIfNewsChanged() {
