@@ -86,7 +86,7 @@ class RedditAmplifier extends Amplifier {
 }
 
 
-chrome.storage.local.get(['points_weight'], function (response) {
+chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight: pointsWeight }) {
     let messagesListElement;
     let messagesWidth;
     let messagesListObserver;
@@ -99,7 +99,7 @@ chrome.storage.local.get(['points_weight'], function (response) {
 
         const pointsCountList = Amplifier.countList(RedditAmplifier.pointsElements(messagesListElement));
         const commentsCountList = Amplifier.countList(RedditAmplifier.commentsElements(messagesListElement));
-        const amp = new RedditAmplifier(response.points_weight);
+        const amp = new RedditAmplifier(pointsWeight);
         amp.amplifyList({ pointsCountList, commentsCountList, rows, maxWidth: messagesWidth });
     }
 

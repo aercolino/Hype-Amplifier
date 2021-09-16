@@ -39,7 +39,7 @@ class HackerNewsAmplifier extends Amplifier {
 }
 
 
-chrome.storage.local.get(['points_weight'], function(response) {
+chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight: pointsWeight }) {
     let newsWidth;
 
     function amplification() {
@@ -48,7 +48,7 @@ chrome.storage.local.get(['points_weight'], function(response) {
 
         const pointsCountList = Amplifier.countList(HackerNewsAmplifier.pointsElements());
         const commentsCountList = Amplifier.countList(HackerNewsAmplifier.commentsElements());
-        const amp = new HackerNewsAmplifier(response.points_weight);
+        const amp = new HackerNewsAmplifier(pointsWeight);
         amp.amplifyList({ pointsCountList, commentsCountList, rows, maxWidth: newsWidth });
     }
 
