@@ -65,17 +65,12 @@ class RedditAmplifier extends Amplifier {
         }
         return Amplifier.waitForElement(pathname, innermostMessagesList);
     }
-    
-    static waitForFirstMessageElement(pathname, messagesListElement) {
-        function firstMessage() {
-            const messages = messagesListElement.children;
-            const firstPageCompleted = messages.length >= MESSAGES_ON_THE_FIRST_PAGE[RedditAmplifier.currentView()];
-            if (firstPageCompleted) {
-                return messages[0];
-            }
-            return undefined;
+
+    static waitForFirstPage(pathname, messagesListElement) {
+        function firstPage() {
+            return messagesListElement.childElementCount >= MESSAGES_ON_THE_FIRST_PAGE[RedditAmplifier.currentView()];
         }
-        return Amplifier.waitForElement(pathname, firstMessage);
+        return Amplifier.waitForElement(pathname, firstPage);
     }
 
     static amplifiableElements() {
@@ -130,9 +125,10 @@ chrome.storage.local.get(['points_weight'], function (response) {
         RedditAmplifier.waitForMessagesListElement(pathname)
             .then((element) => {
                 messagesListElement = element;
-                return RedditAmplifier.waitForFirstMessageElement(pathname, element);
+                return RedditAmplifier.waitForFirstPage(pathname, element);
             })
-            .then((firstMessage) => {
+            .then(() => {
+                const firstMessage = messagesListElement.children[0];
                 messagesWidth = firstMessage.clientWidth;
                 messagesListObserver = new MutationObserver(() => {
                     // This observer is only used to detect when the Reddit page starts loading a new block of news (infinite scrolling)

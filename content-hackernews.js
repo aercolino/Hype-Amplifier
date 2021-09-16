@@ -28,13 +28,9 @@ function commentsElements() {
     return document.querySelectorAll('.subtext :nth-child(6)');
 }
 
-function firstMessageElement() {
+function firstPage() {
     const messages = document.querySelectorAll('td:nth-child(3).title');
-    const firstPageCompleted = messages.length >= MESSAGES_ON_THE_FIRST_PAGE;
-    if (firstPageCompleted) {
-        return messages[0].parentElement;
-    }
-    return undefined;
+    return messages.length >= MESSAGES_ON_THE_FIRST_PAGE;
 }
 
 function amplifiableElements() {
@@ -65,8 +61,9 @@ chrome.storage.local.get(['points_weight'], function(response) {
         }
     }
 
-    Amplifier.waitForElement(document.location.pathname, firstMessageElement)
-        .then((firstMessage) => {
+    Amplifier.waitForElement(document.location.pathname, firstPage)
+        .then(() => {
+            const firstMessage = document.querySelector('td:nth-child(3).title');
             const tableWidth = document.getElementById('pagespace').clientWidth;
             const messageNumberWidth = firstMessage.querySelector('.title').clientWidth;
             const upButtonWidth = firstMessage.querySelector('.votelinks').clientWidth;
