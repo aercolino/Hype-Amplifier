@@ -64,11 +64,11 @@ class Amplifier {
             const intervalId = setInterval(() => {
                 if (document.location.pathname !== pathname) {
                     clearInterval(intervalId);
-                    reject(new Error('Abort'));
+                    reject(new Error(`Abort ${name}`));
                 }
                 if (new Date() - waitingSince >= maxWait) {
                     clearInterval(intervalId);
-                    reject(new Error('Timeout'));
+                    reject(new Error(`Timeout ${name}`));
                 }
                 element = selectorFn();
                 if (element) {
