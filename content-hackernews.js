@@ -3,8 +3,8 @@
 const MESSAGES_ON_THE_FIRST_PAGE = 30; // units
 
 class HackerNewsAmplifier extends Amplifier {
-    constructor(pointsCountList, commentsCountList, pointsRatio, { rows, maxWidth }) {
-        super(pointsCountList, commentsCountList, pointsRatio);
+    constructor(pointsRatio, { rows, maxWidth }) {
+        super(pointsRatio);
         this.rows = rows;
         this.maxWidth = maxWidth;
     }
@@ -48,8 +48,8 @@ chrome.storage.local.get(['points_weight'], function(response) {
 
         const pointsCountList = Amplifier.countList(pointsElements());
         const commentsCountList = Amplifier.countList(commentsElements());
-        const amp = new HackerNewsAmplifier(pointsCountList, commentsCountList, response && response.points_weight, { rows, maxWidth: newsWidth });
-        amp.amplifyList();
+        const amp = new HackerNewsAmplifier(response.points_weight, { rows, maxWidth: newsWidth });
+        amp.amplifyList({ pointsCountList, commentsCountList });
     }
 
     function amplify() {

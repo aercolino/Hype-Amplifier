@@ -4,14 +4,14 @@ class Amplifier {
     static goldenRatio = 0.618;
     static ratingStarsFragments = this.createRatingStarsFragments();
 
-    constructor(pointsCountList, commentsCountList, pointsRatio) {
-        this.pointsCountList = pointsCountList;
-        this.commentsCountList = commentsCountList;
-
+    constructor(pointsRatio) {
         this.ratios = Amplifier.getRatios(pointsRatio);
-        this.pointsCountMax = Math.max(...this.pointsCountList);
-        this.commentsCountMax = Math.max(...this.commentsCountList);
-        this.weightedWhole = this.pointsCountMax * this.ratios.points + this.commentsCountMax * this.ratios.comments;
+    }
+
+    setWeightedWhole({pointsCountList, commentsCountList}) {
+        const pointsCountMax = Math.max(...pointsCountList);
+        const commentsCountMax = Math.max(...commentsCountList);
+        this.weightedWhole = pointsCountMax * this.ratios.points + commentsCountMax * this.ratios.comments;
     }
 
     getPercentage({ pointsCount, commentsCount }) {
@@ -24,12 +24,18 @@ class Amplifier {
         throw new Error('Expected some implementation of this method');
     }
 
-    amplifyList() {
-        this.pointsCountList.forEach((pointsCount, index) => {
-            const commentsCount = this.commentsCountList[index];
+    amplifyList({pointsCountList, commentsCountList}) {
+        const indexTop = pointsCountList.length;
+        if (indexTop !== commentsCountList.length) {
+            throw new Error(`Expected same length lists of points and comments, got "${pointsCountList.length}" VS "${commentsCountList.length}"`);
+        }
+        this.setWeightedWhole({ pointsCountList, commentsCountList });
+        for (let index = 0; index < indexTop; index++) {
+            const pointsCount = pointsCountList[index];
+            const commentsCount = commentsCountList[index];
             const percentage = this.getPercentage({ pointsCount, commentsCount });
             this.amplifyItem(index, percentage);
-        });
+        }
     }
 
     static getRatios(pointsRatio) {
