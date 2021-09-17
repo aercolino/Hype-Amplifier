@@ -46,24 +46,41 @@ class RedditAmplifier extends Amplifier {
         return this.messagesListElement.querySelectorAll(':scope [data-click-id="comments"]');
     }
 
+    isUserPage() {
+        return this.pathname.startsWith('/user/');
+    }
+
+    static isUserAnonymous() {
+        return !!document.querySelector('a[href^="https://www.reddit.com/login"]')
+    }
+
+    static ancestorElement(element, levels) {
+        let result = element;
+        for (let i = 0; i < levels; i++) {
+            result = result.parentElement;
+        }
+        return result;
+    }
+
     waitForMessagesListElement() {
         // Reddit DOM structure on 2021-08
-        const isUserPage = this.pathname.startsWith('/user/');
+        const isUserPage = this.isUserPage();
         const isUserPostsPage = isUserPage && this.pathname.endsWith('/posts/');
         function messagesListIsAvailable() {
             try {
-                if (! isUserPage || isUserPostsPage) {
-                    return document.querySelector('div.Post')
-                        .parentElement.parentElement.parentElement;
+                if (!isUserPage || isUserPostsPage) {
+                    const firstPost = document.querySelector('div.Post');
+                    return RedditAmplifier.ancestorElement(firstPost, 3);
                 }
                 if (isUserPage) {
                     // 1- A user's pinned posts will appear in the overview page
                     // 2- We don't want to compute the hype of pinned posts
                     // 3- The difference between pinned and ordinary posts is that
-                    // the latter have a child with data-click-id="background"
-                    return document.querySelector('div.Post>[data-click-id="background"]')
-                        .parentElement.parentElement.parentElement
-                        .parentElement.parentElement.parentElement;
+                    //    the latter have a child with data-click-id="background"
+                    const firstPost = document.querySelector('div.Post>[data-click-id="background"]').parentElement;
+                    return RedditAmplifier.isUserAnonymous()
+                        ? RedditAmplifier.ancestorElement(firstPost, 5)
+                        : RedditAmplifier.ancestorElement(firstPost, 7);
                 }
                 // All other cases, will be caught by the timeout in waitForCondition
             }
