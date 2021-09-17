@@ -24,7 +24,7 @@ class RedditAmplifier extends Amplifier {
     amplifyList({ pointsCountList, commentsCountList, rows, maxWidth }) {
         this.rows = rows;
         this.maxWidth = maxWidth;
-        this.currentView = RedditAmplifier.currentView();
+        this.currentView = RedditAmplifier.getCurrentView();
         super.amplifyList({ pointsCountList, commentsCountList });
     }
 
@@ -82,7 +82,7 @@ class RedditAmplifier extends Amplifier {
     waitForFirstPage() {
         const amp = this;
         function firstPageIsAvailable() {
-            return amp.messagesListElement.childElementCount >= MESSAGES_ON_THE_FIRST_PAGE[RedditAmplifier.currentView()];
+            return amp.messagesListElement.childElementCount >= MESSAGES_ON_THE_FIRST_PAGE[RedditAmplifier.getCurrentView()];
         }
         return Amplifier.waitForCondition(this.pathname, firstPageIsAvailable);
     }
@@ -91,7 +91,7 @@ class RedditAmplifier extends Amplifier {
         return document.querySelectorAll('div[data-click-id="background"]');
     }
 
-    static currentView() {
+    static getCurrentView() {
         const viewSelectionElement = document.querySelector('#LayoutSwitch--picker');
         return viewSelectionElement ? viewSelectionElement.textContent : 'card';
         // No viewSelectionElement exists on users pages, which always use 'card'
@@ -101,8 +101,8 @@ class RedditAmplifier extends Amplifier {
         const rows = RedditAmplifier.amplifiableElements();
         if (rows.length === 0) return;
 
-        const pointsCountList = Amplifier.countList(RedditAmplifier.pointsElements(this.messagesListElement));
-        const commentsCountList = Amplifier.countList(RedditAmplifier.commentsElements(this.messagesListElement));
+        const pointsCountList = Amplifier.countList(this.pointsElements(this.messagesListElement));
+        const commentsCountList = Amplifier.countList(this.commentsElements(this.messagesListElement));
         this.amplifyList({ pointsCountList, commentsCountList, rows, maxWidth: this.messagesWidth });
     }
 
@@ -117,7 +117,7 @@ class RedditAmplifier extends Amplifier {
         }
         this.previousMessagesCount = messagesCount;
         try {
-            amplification();
+            this.amplification();
         }
         catch (e) {
             console.log('ERROR', e);
@@ -130,10 +130,10 @@ class RedditAmplifier extends Amplifier {
         this.messagesListObserver?.disconnect();
         this.previousMessagesCount = 0;
 
-        RedditAmplifier.waitForMessagesListElement()
+        this.waitForMessagesListElement()
             .then((element) => {
                 this.messagesListElement = element;
-                return RedditAmplifier.waitForFirstPage(element);
+                return this.waitForFirstPage(element);
             })
             .then(() => {
                 const firstMessage = this.messagesListElement.children[0];
@@ -142,10 +142,10 @@ class RedditAmplifier extends Amplifier {
                     // This observer is only used to detect when the Reddit page starts loading a new block of news (infinite scrolling)
                     this.messagesListObserver.disconnect();
                     // From then on, we look for newly added news, between adjacent checks, at regular intervals of time
-                    this.nextCheck = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_DELAY);
+                    this.nextCheck = setInterval(this.amplifyIfNewsChanged.bind(this), WAIT_FOR_NEWS_DELAY);
                 });
                 // Initially, we look for newly added news. Here a timeout would be enough, but it's easier to re-use the interval start
-                this.nextCheck = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_DELAY);
+                this.nextCheck = setInterval(this.amplifyIfNewsChanged.bind(this), WAIT_FOR_NEWS_DELAY);
             })
             .catch((reason) => {
                 console.log(`Failed start for ${this.pathname} because`, reason.message ?? reason);
