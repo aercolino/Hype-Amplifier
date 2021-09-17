@@ -21,6 +21,7 @@ class RedditAmplifier extends Amplifier {
     }
 
     amplifyList({ pointsCountList, commentsCountList, rows }) {
+        this.currentView = RedditAmplifier.getCurrentView();
         this.rows = rows;
         super.amplifyList({ pointsCountList, commentsCountList });
     }
