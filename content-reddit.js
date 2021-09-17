@@ -43,7 +43,7 @@ class RedditAmplifier extends Amplifier {
     }
 
     commentsElements() {
-        return this.messagesListElement.querySelectorAll(':scope [data-click-id="comments"]');
+        return this.messagesListElement.querySelectorAll(':scope [data-test-id="comments-page-link-num-comments"]');
     }
 
     isUserPage() {
