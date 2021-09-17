@@ -1,6 +1,6 @@
 // Hyped News Amplifier - (C) Andrea Ercolino, http://andowebsit.es
 
-const MESSAGES_ON_THE_FIRST_PAGE = 30; // units
+const MESSAGES_ON_THE_PAGE = 30; // units
 
 class HackerNewsAmplifier extends Amplifier {
     amplifyList({ pointsCountList, commentsCountList, rows, maxWidth }) {
@@ -27,14 +27,17 @@ class HackerNewsAmplifier extends Amplifier {
         return document.querySelectorAll('.subtext :nth-child(6)');
     }
     
-    static firstPageIsAvailable() {
-        const messages = document.querySelectorAll('td:nth-child(3).title');
-        return messages.length >= MESSAGES_ON_THE_FIRST_PAGE;
-    }
-    
     static amplifiableElements() {
         // We get to the title like below because we want to skip Y Combinator announcements
         return document.querySelectorAll('.votelinks~.title');
+    }
+
+    static waitForPage(pathname) {
+        function pageIsAvailable() {
+            const messages = document.querySelectorAll('td:nth-child(3).title');
+            return messages.length >= MESSAGES_ON_THE_PAGE;
+        }
+        return Amplifier.waitForCondition(pathname, pageIsAvailable);
     }
 }
 
@@ -61,14 +64,21 @@ chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight:
         }
     }
 
-    Amplifier.waitForCondition(document.location.pathname, HackerNewsAmplifier.firstPageIsAvailable)
-        .then(() => {
-            const tableWidth = document.getElementById('pagespace').clientWidth;
-            const firstMessage = document.querySelector('td:nth-child(3).title').parentElement;
-            const messageNumberWidth = firstMessage.querySelector(':scope .title').clientWidth;
-            const upButtonWidth = firstMessage.querySelector(':scope .votelinks').clientWidth;
-            newsWidth = tableWidth - upButtonWidth - messageNumberWidth;
-            amplify();
-        });
+    function start(pathname) {
+        HackerNewsAmplifier.waitForPage(pathname)
+            .then(() => {
+                const tableWidth = document.getElementById('pagespace').clientWidth;
+                const firstMessage = document.querySelector('td:nth-child(3).title').parentElement;
+                const messageNumberWidth = firstMessage.querySelector(':scope .title').clientWidth;
+                const upButtonWidth = firstMessage.querySelector(':scope .votelinks').clientWidth;
+                newsWidth = tableWidth - upButtonWidth - messageNumberWidth;
+                amplify();
+            })
+            .catch((reason) => {
+                console.log(`Failed start for ${pathname} because`, reason.message ?? reason);
+            });
+    }
+
+    start(document.location.pathname);
 });
 
