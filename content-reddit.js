@@ -121,7 +121,7 @@ chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight:
         }
     }
 
-    function setup(pathname) {
+    function start(pathname) {
         RedditAmplifier.waitForMessagesListElement(pathname)
             .then((element) => {
                 messagesListElement = element;
@@ -136,21 +136,20 @@ chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight:
                     // From then on, we look for newly added news, between adjacent checks, at regular intervals of time
                     nextCheck = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_DELAY);
                 });
-                // Initially, we look for newly added news. Here a timeout would be enough, but it's easier to re-use the interval setup
+                // Initially, we look for newly added news. Here a timeout would be enough, but it's easier to re-use the interval start
                 nextCheck = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_DELAY);
             })
             .catch((reason) => {
-                console.log(`Failed setup for ${pathname} because`, reason.message ?? reason);
+                console.log(`Failed start for ${pathname} because`, reason.message ?? reason);
             });
     }
 
-    setup(document.location.pathname);
-
+    start(document.location.pathname);
     chrome.runtime.onMessage.addListener((request) => {
         if (request !== 'runAgain') return;
         clearInterval(nextCheck);
         messagesListObserver?.disconnect();
         previousMessagesCount = 0;
-        setup(document.location.pathname);
+        start(document.location.pathname);
     });
 });
