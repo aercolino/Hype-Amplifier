@@ -50,3 +50,10 @@ I now think that these aren't that useful.
 3. Allow to invert the spread, i.e. with the least hyped news on the leftmost positions
 
     1. option checkbox "Invert spread", whose change is immediately reflected in the page
+
+
+## About implementation
+
+I've been refactoring today the `Amplifier`, `RedditAmplifier`, and `HackerNewsAmplifier` classes.
+
+My intention is to bring the `amplification`, `amplifyIfNewsChanged`, and `setup` functions into the amplifier classes, so that all the code will feel better organized, and the `doTheMagic` function will be reduced to instantiating the amplifier class and call `setup` (and it's `chrome.runtime.onMessage` counterpart).
