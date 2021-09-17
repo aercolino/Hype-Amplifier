@@ -1,10 +1,7 @@
 // Hyped News Amplifier - (C) Andrea Ercolino, http://andowebsit.es
 
-const MESSAGES_ON_THE_FIRST_PAGE = {
-    card: 5,
-    classic: 25,
-    compact: 25,
-}; // units
+const MESSAGES_ON_THE_FIRST_PAGE = 5; // units
+const MESSAGES_ON_THE_USER_PAGES = 2; // units
 const WAIT_FOR_NEWS_DELAY = 500; // milliseconds
 
 class RedditAmplifier extends Amplifier {
@@ -78,10 +75,10 @@ class RedditAmplifier extends Amplifier {
     }
 
     waitForFirstPage() {
-        this.currentView = RedditAmplifier.getCurrentView();
         const amp = this;
         function firstPageIsAvailable() {
-            return amp.messagesListElement.childElementCount >= MESSAGES_ON_THE_FIRST_PAGE[amp.currentView];
+            const messagesOnTheFirstPage = amp.isUserPage() ? MESSAGES_ON_THE_USER_PAGES : MESSAGES_ON_THE_FIRST_PAGE;
+            return amp.messagesListElement.childElementCount >= messagesOnTheFirstPage;
         }
         return Amplifier.waitForCondition(this.pathname, firstPageIsAvailable);
     }
