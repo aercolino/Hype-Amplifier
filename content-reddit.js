@@ -38,10 +38,10 @@ class RedditAmplifier extends Amplifier {
         return messagesListElement.querySelectorAll(':scope [data-click-id="comments"]');
     }
 
-    static waitForMessagesListElement(pathname) {
+    waitForMessagesListElement() {
         // Reddit DOM structure on 2021-08
-        const isUserPage = pathname.startsWith('/user/');
-        const isUserPostsPage = isUserPage && pathname.endsWith('/posts/');
+        const isUserPage = this.pathname.startsWith('/user/');
+        const isUserPostsPage = isUserPage && this.pathname.endsWith('/posts/');
         function messagesListIsAvailable() {
             try {
                 if (! isUserPage || isUserPostsPage) {
@@ -63,14 +63,14 @@ class RedditAmplifier extends Amplifier {
                 return undefined;
             }
         }
-        return Amplifier.waitForCondition(pathname, messagesListIsAvailable);
+        return Amplifier.waitForCondition(this.pathname, messagesListIsAvailable);
     }
 
-    static waitForFirstPage(pathname, messagesListElement) {
+    waitForFirstPage(messagesListElement) {
         function firstPageIsAvailable() {
             return messagesListElement.childElementCount >= MESSAGES_ON_THE_FIRST_PAGE[RedditAmplifier.currentView()];
         }
-        return Amplifier.waitForCondition(pathname, firstPageIsAvailable);
+        return Amplifier.waitForCondition(this.pathname, firstPageIsAvailable);
     }
 
     static amplifiableElements() {
@@ -83,27 +83,16 @@ class RedditAmplifier extends Amplifier {
         // No viewSelectionElement exists on users pages, which always use 'card'
     }
 
-}
-
-
-chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight: pointsWeight }) {
-    let messagesListElement;
-    let messagesWidth;
-    let messagesListObserver;
-    let previousMessagesCount = 0;
-    let nextCheck;
-
-    function amplification() {
+    amplification() {
         const rows = RedditAmplifier.amplifiableElements();
         if (rows.length === 0) return;
 
         const pointsCountList = Amplifier.countList(RedditAmplifier.pointsElements(messagesListElement));
         const commentsCountList = Amplifier.countList(RedditAmplifier.commentsElements(messagesListElement));
-        const amp = new RedditAmplifier(pointsWeight);
         amp.amplifyList({ pointsCountList, commentsCountList, rows, maxWidth: messagesWidth });
     }
 
-    function amplifyIfNewsChanged() {
+    amplifyIfNewsChanged() {
         const messagesCount = messagesListElement.childElementCount;
         if (messagesCount === previousMessagesCount) {
             // As soon as we see that no news were added since the previous check, we stop checking again later
@@ -121,11 +110,12 @@ chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight:
         }
     }
 
-    function start(pathname) {
-        RedditAmplifier.waitForMessagesListElement(pathname)
+    start() {
+        this.pathname = document.location.pathname;
+        RedditAmplifier.waitForMessagesListElement()
             .then((element) => {
                 messagesListElement = element;
-                return RedditAmplifier.waitForFirstPage(pathname, element);
+                return RedditAmplifier.waitForFirstPage(element);
             })
             .then(() => {
                 const firstMessage = messagesListElement.children[0];
@@ -140,16 +130,27 @@ chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight:
                 nextCheck = setInterval(amplifyIfNewsChanged, WAIT_FOR_NEWS_DELAY);
             })
             .catch((reason) => {
-                console.log(`Failed start for ${pathname} because`, reason.message ?? reason);
+                console.log(`Failed start for ${this.pathname} because`, reason.message ?? reason);
             });
     }
+}
 
-    start(document.location.pathname);
+
+chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight: pointsWeight }) {
+    let messagesListElement;
+    let messagesWidth;
+    let messagesListObserver;
+    let previousMessagesCount = 0;
+    let nextCheck;
+
+    const amp = new RedditAmplifier(pointsWeight);
+    amp.start();
+
     chrome.runtime.onMessage.addListener((request) => {
         if (request !== 'runAgain') return;
         clearInterval(nextCheck);
         messagesListObserver?.disconnect();
         previousMessagesCount = 0;
-        start(document.location.pathname);
+        amp.start();
     });
 });
