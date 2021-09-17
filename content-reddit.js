@@ -17,14 +17,11 @@ class RedditAmplifier extends Amplifier {
         this.nextCheck = undefined;
         this.messagesListObserver = null;
         this.rows = [];
-        this.maxWidth = 0;
         this.currentView = '';
     }
 
-    amplifyList({ pointsCountList, commentsCountList, rows, maxWidth }) {
+    amplifyList({ pointsCountList, commentsCountList, rows }) {
         this.rows = rows;
-        this.maxWidth = maxWidth;
-        this.currentView = RedditAmplifier.getCurrentView();
         super.amplifyList({ pointsCountList, commentsCountList });
     }
 
@@ -38,7 +35,7 @@ class RedditAmplifier extends Amplifier {
             title.before(stars);
             return;
         }
-        const amplitude = Amplifier.getAmplitude({ percentage, maxAmplitude: this.maxWidth });
+        const amplitude = Amplifier.getAmplitude({ percentage, maxAmplitude: this.messagesWidth });
         row.style.marginLeft = `${amplitude}px`;
         row.classList.add('hna-spread');
     }
@@ -80,9 +77,10 @@ class RedditAmplifier extends Amplifier {
     }
 
     waitForFirstPage() {
+        this.currentView = RedditAmplifier.getCurrentView();
         const amp = this;
         function firstPageIsAvailable() {
-            return amp.messagesListElement.childElementCount >= MESSAGES_ON_THE_FIRST_PAGE[RedditAmplifier.getCurrentView()];
+            return amp.messagesListElement.childElementCount >= MESSAGES_ON_THE_FIRST_PAGE[amp.currentView];
         }
         return Amplifier.waitForCondition(this.pathname, firstPageIsAvailable);
     }
@@ -98,12 +96,10 @@ class RedditAmplifier extends Amplifier {
     }
 
     amplification() {
+        const pointsCountList = Amplifier.countList(this.pointsElements());
+        const commentsCountList = Amplifier.countList(this.commentsElements());
         const rows = RedditAmplifier.amplifiableElements();
-        if (rows.length === 0) return;
-
-        const pointsCountList = Amplifier.countList(this.pointsElements(this.messagesListElement));
-        const commentsCountList = Amplifier.countList(this.commentsElements(this.messagesListElement));
-        this.amplifyList({ pointsCountList, commentsCountList, rows, maxWidth: this.messagesWidth });
+        this.amplifyList({ pointsCountList, commentsCountList, rows });
     }
 
     amplifyIfNewsChanged() {
@@ -133,7 +129,7 @@ class RedditAmplifier extends Amplifier {
         this.waitForMessagesListElement()
             .then((element) => {
                 this.messagesListElement = element;
-                return this.waitForFirstPage(element);
+                return this.waitForFirstPage();
             })
             .then(() => {
                 const firstMessage = this.messagesListElement.children[0];
