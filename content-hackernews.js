@@ -5,6 +5,7 @@ const MESSAGES_ON_THE_PAGE = 30; // units
 class HackerNewsAmplifier extends Amplifier {
     constructor(...args) {
         super(...args);
+        this.pathname = '';
         this.messagesWidth = 0;
         this.rows = [];
     }
@@ -37,12 +38,12 @@ class HackerNewsAmplifier extends Amplifier {
         return document.querySelectorAll('.votelinks~.title');
     }
 
-    static waitForPage(pathname) {
+    waitForPage() {
         function pageIsAvailable() {
             const messages = document.querySelectorAll('td:nth-child(3).title');
             return messages.length >= MESSAGES_ON_THE_PAGE;
         }
-        return Amplifier.waitForCondition(pathname, pageIsAvailable);
+        return Amplifier.waitForCondition(this.pathname, pageIsAvailable);
     }
 
     amplification() {
@@ -64,8 +65,8 @@ class HackerNewsAmplifier extends Amplifier {
     }
 
     start() {
-        const pathname = document.location.pathname;
-        HackerNewsAmplifier.waitForPage(pathname)
+        this.pathname = document.location.pathname;
+        this.waitForPage()
             .then(() => {
                 const tableWidth = document.getElementById('pagespace').clientWidth;
                 const firstMessage = document.querySelector('td:nth-child(3).title').parentElement;
@@ -75,10 +76,9 @@ class HackerNewsAmplifier extends Amplifier {
                 this.amplify();
             })
             .catch((reason) => {
-                console.log(`Failed start for ${pathname} because`, reason.message ?? reason);
+                console.log(`Failed start for ${this.pathname} because`, reason.message ?? reason);
             });
     }
-
 }
 
 
@@ -86,4 +86,3 @@ chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight:
     const amp = new HackerNewsAmplifier(pointsWeight);
     amp.start();
 });
-
