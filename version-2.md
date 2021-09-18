@@ -1,7 +1,7 @@
 # Version 2
 
 
-## About functionalities
+## Functionalities to Implement
 
 1. done - Make it work both on Hacker News and Reddit, while keeping the spread based on points and comments
 
@@ -12,25 +12,22 @@
 
 3. done - Use a manifest of version 3
 
-4. On Reddit, use 5 stars to represent hype, not the spread; on Hacker News, keep using the spread
+4. done - On Reddit, use 5 stars to represent hype, not the spread; on Hacker News, keep using the spread
 
     1. Reddit: Use the stars, except in Reddit Home, with a _compact_ view
     2. Hacker News: Use the spread
 
     **Style**
 
-    1. with a spread between 0% (included) and 20% (excluded): 1 blue star
-    2. with a spread between 20% (included) and 40% (excluded): 2 blue stars
-    3. with a spread between 40% (included) and 60% (excluded): 3 blue stars
-    4. with a spread between 60% (included) and 80% (excluded): 4 blue stars
-    5. with a spread between 80% (included) and 100% (excluded): 5 blue stars
-    6. with a spread of 100%: 5 red stars
+    1. with a spread of 0%: 0 blue stars
+    2. with a spread between 0% (excluded) and 20% (included): 1 blue star
+    3. with a spread between 20% (excluded) and 40% (included): 2 blue stars
+    4. with a spread between 40% (excluded) and 60% (included): 3 blue stars
+    5. with a spread between 60% (excluded) and 80% (included): 4 blue stars
+    6. with a spread between 80% (excluded) and 100% (included): 5 blue stars
 
 
----
-
-
-### Additional functionalities
+## Additional functionalities
 
 I now think that these aren't that useful.
 
@@ -50,13 +47,6 @@ I now think that these aren't that useful.
 3. Allow to invert the spread, i.e. with the least hyped news on the leftmost positions
 
     1. option checkbox "Invert spread", whose change is immediately reflected in the page
-
-
-## About implementation
-
-I've been refactoring today the `Amplifier`, `RedditAmplifier`, and `HackerNewsAmplifier` classes.
-
-My intention is to bring the `amplification`, `amplifyIfNewsChanged`, and `setup` functions into the amplifier classes, so that all the code will feel better organized, and the `doTheMagic` function will be reduced to instantiating the amplifier class and call `setup` (and it's `chrome.runtime.onMessage` counterpart).
 
 
 ## Reddit Pages
