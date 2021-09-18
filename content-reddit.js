@@ -86,7 +86,9 @@ class RedditAmplifier extends Amplifier {
                 return undefined;
             }
         }
-        return Amplifier.waitForCondition(this.pathname, messagesListIsAvailable);
+        return Amplifier.waitForCondition(messagesListIsAvailable, {
+            abortCondition: () => document.location.pathname !== this.pathname,
+        });
     }
 
     waitForFirstPage() {
@@ -95,7 +97,9 @@ class RedditAmplifier extends Amplifier {
             const messagesOnTheFirstPage = amp.isUserPage() ? MESSAGES_ON_THE_USER_PAGES : MESSAGES_ON_THE_FIRST_PAGE;
             return amp.messagesListElement.childElementCount >= messagesOnTheFirstPage;
         }
-        return Amplifier.waitForCondition(this.pathname, firstPageIsAvailable);
+        return Amplifier.waitForCondition(firstPageIsAvailable, {
+            abortCondition: () => document.location.pathname !== this.pathname,
+        });
     }
 
     static amplifiableElements() {

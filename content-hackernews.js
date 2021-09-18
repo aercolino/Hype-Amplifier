@@ -43,7 +43,9 @@ class HackerNewsAmplifier extends Amplifier {
             const messages = document.querySelectorAll('td:nth-child(3).title');
             return messages.length >= MESSAGES_ON_THE_PAGE;
         }
-        return Amplifier.waitForCondition(this.pathname, pageIsAvailable);
+        return Amplifier.waitForCondition(pageIsAvailable, {
+            abortCondition: () => document.location.pathname !== this.pathname,
+        });
     }
 
     amplification() {

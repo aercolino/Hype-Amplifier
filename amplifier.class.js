@@ -59,19 +59,19 @@ class Amplifier {
         return result;
     }
 
-    static waitForCondition(pathname, conditionCallback, { delay, maxWait } = { delay: 300, maxWait: 30000 }) {
-        if (typeof conditionCallback !== 'function') {
+    static waitForCondition(condition, { delay, maxWait, abortCondition } = { delay: 300, maxWait: 30000 }) {
+        if (typeof condition !== 'function') {
             throw new Error('Expected a condition callback');
         }
         return new Promise((resolve, reject) => {
-            let result = conditionCallback();
+            let result = condition();
             if (result) {
                 return resolve(result);
             }
-            const name = conditionCallback.name ?? '(anonymous)';
+            const name = condition.name ?? '(anonymous)';
             const waitingSince = new Date();
             const intervalId = setInterval(() => {
-                if (document.location.pathname !== pathname) {
+                if (abortCondition && abortCondition()) {
                     clearInterval(intervalId);
                     reject(new Error(`Abort ${name}`));
                 }
@@ -79,7 +79,7 @@ class Amplifier {
                     clearInterval(intervalId);
                     reject(new Error(`Timeout ${name}`));
                 }
-                result = conditionCallback();
+                result = condition();
                 if (result) {
                     clearInterval(intervalId);
                     resolve(result);
