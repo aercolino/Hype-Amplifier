@@ -24,7 +24,7 @@ class Amplifier {
         throw new Error('Expected some implementation of this method');
     }
 
-    amplifyList({pointsCountList, commentsCountList}) {
+    amplifyList({ pointsCountList, commentsCountList }) {
         const indexTop = pointsCountList.length;
         if (indexTop !== commentsCountList.length) {
             throw new Error(`Expected same length lists of points and comments, got "${pointsCountList.length}" VS "${commentsCountList.length}"`);
