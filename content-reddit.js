@@ -78,9 +78,7 @@ class RedditAmplifier extends Amplifier {
                     // 3- The difference between pinned and ordinary posts is that
                     //    the latter have a child with data-click-id="background"
                     const firstPost = document.querySelector('div.Post>[data-click-id="background"]').parentElement;
-                    return RedditAmplifier.isUserAnonymous()
-                        ? RedditAmplifier.ancestorElement(firstPost, 5)
-                        : RedditAmplifier.ancestorElement(firstPost, 7);
+                    return RedditAmplifier.ancestorElement(firstPost, 5);
                 }
                 // All other cases, will be caught by the timeout in waitForCondition
             }
