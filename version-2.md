@@ -3,31 +3,35 @@
 
 ## Functionalities to Implement
 
-1. done - Make it work both on Hacker News and Reddit, while keeping the spread based on points and comments
+1. done - UX: Make it work both on Hacker News and Reddit, while keeping the spread based on points and comments
 
-2. done - Replace the slider with two controls
+2. done - UX: Replace the slider with two controls
 
     1. points: an input box, accepting any positive integer between 0 and 100 (defaulted to 50)
     2. comments: a computed label, always set to the difference between 100 and the input value above
 
-3. done - Use a manifest of version 3
+3. done - Code: Use a manifest of version 3
 
-4. done - On Reddit, use 5 stars to represent hype, not the spread; on Hacker News, keep using the spread
+4. done - UX: On Reddit, use 5 stars to represent hype, not the spread; on Hacker News, keep using the spread
 
     1. Reddit: Use the stars, except in Reddit Home, with a _compact_ view
     2. Hacker News: Use the spread
 
-    **Style**
+    --
 
-    1. with a spread of 0%: 0 blue stars
-    2. with a spread between 0% (excluded) and 20% (included): 1 blue star
-    3. with a spread between 20% (excluded) and 40% (included): 2 blue stars
-    4. with a spread between 40% (excluded) and 60% (included): 3 blue stars
-    5. with a spread between 60% (excluded) and 80% (included): 4 blue stars
-    6. with a spread between 80% (excluded) and 100% (included): 5 blue stars
+    + with a spread of 0%: 0 blue stars
+    + with a spread between 0% (excluded) and 20% (included): 1 blue star
+    + with a spread between 20% (excluded) and 40% (included): 2 blue stars
+    + with a spread between 40% (excluded) and 60% (included): 3 blue stars
+    + with a spread between 60% (excluded) and 80% (included): 4 blue stars
+    + with a spread between 80% (excluded) and 100% (included): 5 blue stars
+
+5. done - Code: Remove jQuery / jQuery UI dependencies
+
+6. done - Code: Organize everything into classes
 
 
-## Additional functionalities
+## Additional Functionalities
 
 I now think that these aren't that useful.
 
@@ -51,6 +55,9 @@ I now think that these aren't that useful.
 
 ## Reddit Pages
 
+
+### Stars
+
 + Home / Card / Best
 + Home / Card / Hot
 + Home / Card / New
@@ -71,17 +78,6 @@ I now think that these aren't that useful.
 + Home / Classic / Top / This Month
 + Home / Classic / Top / This Year
 + Home / Classic / Top / All Time
-+ Home / Compact / Best
-+ Home / Compact / Hot
-+ Home / Compact / New
-+ Home / Compact / Rising
-+ Home / Compact / Top / Now
-+ Home / Compact / Top / Today
-+ Home / Compact / Top / This Week
-+ Home / Compact / Top / This Month
-+ Home / Compact / Top / This Year
-+ Home / Compact / Top / All Time
-
 + User / Overview / Hot
 + User / Overview / New
 + User / Overview / Top / Now
@@ -98,6 +94,24 @@ I now think that these aren't that useful.
 + User / Posts / Top / This Month
 + User / Posts / Top / This Year
 + User / Posts / Top / All Time
+
+
+### Spread
+
++ Home / Compact / Best
++ Home / Compact / Hot
++ Home / Compact / New
++ Home / Compact / Rising
++ Home / Compact / Top / Now
++ Home / Compact / Top / Today
++ Home / Compact / Top / This Week
++ Home / Compact / Top / This Month
++ Home / Compact / Top / This Year
++ Home / Compact / Top / All Time
+
+
+### No Stars Nor Spread
+
 + User / Comments / Hot
 + User / Comments / New
 + User / Comments / Top / Now
@@ -106,3 +120,27 @@ I now think that these aren't that useful.
 + User / Comments / Top / This Month
 + User / Comments / Top / This Year
 + User / Comments / Top / All Time
+
+
+## Hacker News Pages
+
+
+### Stars
+
+(none)
+
+
+### Spread
+
++ Home `/`
++ New `/newest`
++ Past `/front`
++ Ask `/ask`
++ Show `/show`
+
+
+### No Stars Nor Spread
+
++ Threads `/threads?id=<username>`
++ Comments `/newcomments`
++ Jobs `/jobs`
