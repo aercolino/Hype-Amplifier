@@ -47,11 +47,9 @@ class HackerNewsAmplifier extends Amplifier {
     }
 
     amplification() {
-        const rows = HackerNewsAmplifier.amplifiableElements();
-        if (rows.length === 0) return;
-
         const pointsCountList = Amplifier.countList(HackerNewsAmplifier.pointsElements());
         const commentsCountList = Amplifier.countList(HackerNewsAmplifier.commentsElements());
+        const rows = HackerNewsAmplifier.amplifiableElements();
         this.amplifyList({ pointsCountList, commentsCountList, rows });
     }
 
