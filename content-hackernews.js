@@ -3,9 +3,14 @@
 const MESSAGES_ON_THE_PAGE = 30; // units
 
 class HackerNewsAmplifier extends Amplifier {
-    amplifyList({ pointsCountList, commentsCountList, rows, maxWidth }) {
+    constructor(...args) {
+        super(...args);
+        this.messagesWidth = 0;
+        this.rows = [];
+    }
+
+    amplifyList({ pointsCountList, commentsCountList, rows }) {
         this.rows = rows;
-        this.maxWidth = maxWidth;
         super.amplifyList({ pointsCountList, commentsCountList });
     }
 
@@ -14,7 +19,7 @@ class HackerNewsAmplifier extends Amplifier {
         // We get to the byline like below because we want to skip Y Combinator announcements
         // and bylines are not siblings to titles but cousins!
         const byline = title.parentElement.nextElementSibling.querySelector(':scope .subtext');
-        const amplitude = Amplifier.getAmplitude({ percentage, maxAmplitude: this.maxWidth });
+        const amplitude = Amplifier.getAmplitude({ percentage, maxAmplitude: this.messagesWidth });
         title.style.paddingLeft = `${amplitude}px`;
         byline.style.paddingLeft = `${amplitude}px`;
     }
@@ -39,32 +44,26 @@ class HackerNewsAmplifier extends Amplifier {
         }
         return Amplifier.waitForCondition(pathname, pageIsAvailable);
     }
-}
 
-
-chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight: pointsWeight }) {
-    let messagesWidth;
-
-    function amplification() {
+    amplification() {
         const rows = HackerNewsAmplifier.amplifiableElements();
         if (rows.length === 0) return;
 
         const pointsCountList = Amplifier.countList(HackerNewsAmplifier.pointsElements());
         const commentsCountList = Amplifier.countList(HackerNewsAmplifier.commentsElements());
-        const amp = new HackerNewsAmplifier(pointsWeight);
-        amp.amplifyList({ pointsCountList, commentsCountList, rows, maxWidth: messagesWidth });
+        this.amplifyList({ pointsCountList, commentsCountList, rows });
     }
 
-    function amplify() {
+    amplify() {
         try {
-            amplification();
+            this.amplification();
         }
         catch (e) {
             console.log('ERROR', e);
         }
     }
 
-    function start() {
+    start() {
         const pathname = document.location.pathname;
         HackerNewsAmplifier.waitForPage(pathname)
             .then(() => {
@@ -72,14 +71,19 @@ chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight:
                 const firstMessage = document.querySelector('td:nth-child(3).title').parentElement;
                 const messageNumberWidth = firstMessage.querySelector(':scope .title').clientWidth;
                 const upButtonWidth = firstMessage.querySelector(':scope .votelinks').clientWidth;
-                messagesWidth = tableWidth - upButtonWidth - messageNumberWidth;
-                amplify();
+                this.messagesWidth = tableWidth - upButtonWidth - messageNumberWidth;
+                this.amplify();
             })
             .catch((reason) => {
                 console.log(`Failed start for ${pathname} because`, reason.message ?? reason);
             });
     }
 
-    start();
+}
+
+
+chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight: pointsWeight }) {
+    const amp = new HackerNewsAmplifier(pointsWeight);
+    amp.start();
 });
 
