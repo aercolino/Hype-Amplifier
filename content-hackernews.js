@@ -43,7 +43,7 @@ class HackerNewsAmplifier extends Amplifier {
 
 
 chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight: pointsWeight }) {
-    let newsWidth;
+    let messagesWidth;
 
     function amplification() {
         const rows = HackerNewsAmplifier.amplifiableElements();
@@ -52,7 +52,7 @@ chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight:
         const pointsCountList = Amplifier.countList(HackerNewsAmplifier.pointsElements());
         const commentsCountList = Amplifier.countList(HackerNewsAmplifier.commentsElements());
         const amp = new HackerNewsAmplifier(pointsWeight);
-        amp.amplifyList({ pointsCountList, commentsCountList, rows, maxWidth: newsWidth });
+        amp.amplifyList({ pointsCountList, commentsCountList, rows, maxWidth: messagesWidth });
     }
 
     function amplify() {
@@ -64,14 +64,15 @@ chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight:
         }
     }
 
-    function start(pathname) {
+    function start() {
+        const pathname = document.location.pathname;
         HackerNewsAmplifier.waitForPage(pathname)
             .then(() => {
                 const tableWidth = document.getElementById('pagespace').clientWidth;
                 const firstMessage = document.querySelector('td:nth-child(3).title').parentElement;
                 const messageNumberWidth = firstMessage.querySelector(':scope .title').clientWidth;
                 const upButtonWidth = firstMessage.querySelector(':scope .votelinks').clientWidth;
-                newsWidth = tableWidth - upButtonWidth - messageNumberWidth;
+                messagesWidth = tableWidth - upButtonWidth - messageNumberWidth;
                 amplify();
             })
             .catch((reason) => {
@@ -79,6 +80,6 @@ chrome.storage.local.get(['points_weight'], function doTheMagic({ points_weight:
             });
     }
 
-    start(document.location.pathname);
+    start();
 });
 
