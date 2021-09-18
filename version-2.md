@@ -133,6 +133,7 @@ I now think that these aren't that useful.
 ### Spread
 
 + Home `/`
++ (News `/news` same as Home)
 + New `/newest`
 + Past `/front`
 + Ask `/ask`
