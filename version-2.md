@@ -57,3 +57,62 @@ I now think that these aren't that useful.
 I've been refactoring today the `Amplifier`, `RedditAmplifier`, and `HackerNewsAmplifier` classes.
 
 My intention is to bring the `amplification`, `amplifyIfNewsChanged`, and `setup` functions into the amplifier classes, so that all the code will feel better organized, and the `doTheMagic` function will be reduced to instantiating the amplifier class and call `setup` (and it's `chrome.runtime.onMessage` counterpart).
+
+
+## Reddit Pages
+
++ Home / Card / Best
++ Home / Card / Hot
++ Home / Card / New
++ Home / Card / Rising
++ Home / Card / Top / Now
++ Home / Card / Top / Today
++ Home / Card / Top / This Week
++ Home / Card / Top / This Month
++ Home / Card / Top / This Year
++ Home / Card / Top / All Time
++ Home / Classic / Best
++ Home / Classic / Hot
++ Home / Classic / New
++ Home / Classic / Rising
++ Home / Classic / Top / Now
++ Home / Classic / Top / Today
++ Home / Classic / Top / This Week
++ Home / Classic / Top / This Month
++ Home / Classic / Top / This Year
++ Home / Classic / Top / All Time
++ Home / Compact / Best
++ Home / Compact / Hot
++ Home / Compact / New
++ Home / Compact / Rising
++ Home / Compact / Top / Now
++ Home / Compact / Top / Today
++ Home / Compact / Top / This Week
++ Home / Compact / Top / This Month
++ Home / Compact / Top / This Year
++ Home / Compact / Top / All Time
+
++ User / Overview / Hot
++ User / Overview / New
++ User / Overview / Top / Now
++ User / Overview / Top / Today
++ User / Overview / Top / This Week
++ User / Overview / Top / This Month
++ User / Overview / Top / This Year
++ User / Overview / Top / All Time
++ User / Posts / Hot
++ User / Posts / New
++ User / Posts / Top / Now
++ User / Posts / Top / Today
++ User / Posts / Top / This Week
++ User / Posts / Top / This Month
++ User / Posts / Top / This Year
++ User / Posts / Top / All Time
++ User / Comments / Hot
++ User / Comments / New
++ User / Comments / Top / Now
++ User / Comments / Top / Today
++ User / Comments / Top / This Week
++ User / Comments / Top / This Month
++ User / Comments / Top / This Year
++ User / Comments / Top / All Time
