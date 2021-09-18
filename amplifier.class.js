@@ -125,12 +125,13 @@ class Amplifier {
     static getStars(percentage) {
         let fragment;
         switch (true) {
+            case percentage > 80: fragment = this.ratingStarsFragments.hot; break;
+            case percentage > 60: fragment = this.ratingStarsFragments.warmer; break;
+            case percentage > 40: fragment = this.ratingStarsFragments.warm; break;
+            case percentage > 20: fragment = this.ratingStarsFragments.cool; break;
+            case percentage > 0: fragment = this.ratingStarsFragments.cold; break;
             case percentage === 0: fragment = this.ratingStarsFragments.null; break;
-            case percentage < 20: fragment = this.ratingStarsFragments.cold; break;
-            case percentage < 40: fragment = this.ratingStarsFragments.cool; break;
-            case percentage < 60: fragment = this.ratingStarsFragments.warm; break;
-            case percentage < 80: fragment = this.ratingStarsFragments.warmer; break;
-            case percentage >= 80: fragment = this.ratingStarsFragments.hot; break;
+            default: throw new Error(`Expected a percentage between 0 and 100, got "${percentage}"`);
         }
         return fragment.cloneNode(true);
     }
