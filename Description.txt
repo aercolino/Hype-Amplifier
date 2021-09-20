@@ -1,3 +1,5 @@
+Hyped News Amplifier spreads Hacker News messages on the page, or it rates Reddit messages with up to 5 stars, always according to the number of points and comments, conveniently weighted the way you like. At the same time, it preserves news positions on the vertical axis, so that they continue drifting down as they age.
+
 -- PROBLEM --
 
 Hacker News and Reddit sites continuously publish news, which users can read, like, dislike, and comment. As time goes by, all news drift down, so that the first few tens of news are always the freshest. Hyped news drift down quite more slowly, though. 
@@ -6,7 +8,7 @@ Whenever you start browsing those sites, thousands of other readers around the w
 
 -- SOLUTION --
 
-Hyped News Amplifier spreads Hacker News messages on the page, or it rates Reddit messages with up to 5 stars, always according to the number of points and comments, conveniently weighted the way you like. At the same time, it preserves news positions on the vertical axis, so that they continue drifting down as they age.
+Install Hyped News Amplifier. Then open Hacker News or Reddit in a new tab.
 
 Configuration
 
