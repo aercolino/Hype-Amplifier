@@ -1,4 +1,4 @@
-Hyped News Amplifier spreads Hacker News messages on the page, or it rates Reddit messages with up to 5 stars, always according to the number of points and comments, conveniently weighted the way you like. At the same time, it preserves news positions on the vertical axis, so that they continue drifting down as they age.
+Hyped News Amplifier spreads Hacker News messages on the page, or it rates Reddit messages with up to 5 stars, according to the number of points and comments, conveniently weighted the way you like. At the same time, it preserves vertical positions, so that messages continue drifting down as they age.
 
 -- PROBLEM --
 
