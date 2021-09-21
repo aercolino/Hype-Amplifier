@@ -1,14 +1,11 @@
 module.exports = {
-  'env': {
-    'browser': true,
-    'es2021': true,
+  parser: '@babel/eslint-parser',
+  env: {
+    browser: true,
   },
-  'extends': [
+  extends: [
     'google',
   ],
-  'parserOptions': {
-    'ecmaVersion': 12,
-  },
-  'rules': {
+  rules: {
   },
 };

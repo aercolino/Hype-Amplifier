@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/aercolino/Hype-Amplifier#readme",
   "devDependencies": {
+    "@babel/eslint-parser": "^7.15.7",
+    "@babel/preset-env": "^7.15.6",
     "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0"
   }
