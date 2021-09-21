@@ -7,5 +7,6 @@ module.exports = {
     'google',
   ],
   rules: {
+    'max-len': [error, {code: 160, ignoreTemplateLiterals: true}],
   },
 };
