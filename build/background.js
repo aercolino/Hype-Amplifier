@@ -2,23 +2,23 @@
 
 // See https://developer.chrome.com/docs/extensions/reference/action/
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.action.disable();
-    chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
-        chrome.declarativeContent.onPageChanged.addRules([{
-            conditions: [
-                new chrome.declarativeContent.PageStateMatcher({
-                    pageUrl: { hostEquals: 'news.ycombinator.com', schemes: ['https'] },
-                }),
-                new chrome.declarativeContent.PageStateMatcher({
-                    pageUrl: { hostEquals: 'www.reddit.com', schemes: ['https'] },
-                })
-            ],
-            actions: [new chrome.declarativeContent.ShowAction()],
-        }]);
-    });
+  chrome.action.disable();
+  chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
+    chrome.declarativeContent.onPageChanged.addRules([{
+      conditions: [
+        new chrome.declarativeContent.PageStateMatcher({
+          pageUrl: {hostEquals: 'news.ycombinator.com', schemes: ['https']},
+        }),
+        new chrome.declarativeContent.PageStateMatcher({
+          pageUrl: {hostEquals: 'www.reddit.com', schemes: ['https']},
+        }),
+      ],
+      actions: [new chrome.declarativeContent.ShowAction()],
+    }]);
+  });
 });
 
-chrome.webNavigation.onHistoryStateUpdated.addListener(({ tabId, url }) => {
-    if (!/\bwww\.reddit\.com\b/.test(url)) return;
-    chrome.tabs.sendMessage(tabId, 'runAgain');
+chrome.webNavigation.onHistoryStateUpdated.addListener(({tabId, url}) => {
+  if (!/\bwww\.reddit\.com\b/.test(url)) return;
+  chrome.tabs.sendMessage(tabId, 'runAgain');
 });
