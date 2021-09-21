@@ -1,6 +1,14 @@
-Hyped News Amplifier spreads Hacker News messages on the page, and rates Reddit messages with up to 5 stars, according to the number of points and comments, conveniently weighted the way you like. At the same time, it preserves vertical positions, so that messages continue drifting down as they age.
+Hyped News Amplifier spreads Hacker News messages on the page, and rates Reddit messages with up to 5 stars, according to the number of points and comments, conveniently weighted the way you like. At the same time, it preserves the list positions of all the messages, so that they continue drifting down as they age.
 
 
 -- CONFIGURATION --
 
-Hyped News Amplifier is dead simple. It only needs a number to do its magic. By default the number is set to 50%, meaning that points and comments weigh the same. Open the Options page and customize that number. For example, if you set it to 10% points and 90% comments, then comments will count 9 times more than points.
+Hyped News Amplifier configuration is dead simple. It only needs a number to do its magic. By default the number is set to 50%, meaning that points and comments weigh the same. Open the Options page and customize that number. For example, if you set it to 10% points and 90% comments, then comments will count 9 times more than points.
+
+
+-- CHANGE LOG --
+
+1.9.0
++ Fixed Reddit support
++ Introduced the _Stars_ mode
++ Simplified the _Options_ page
