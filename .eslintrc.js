@@ -7,7 +7,7 @@ module.exports = {
     'google',
   ],
   rules: {
-    'require-jsdoc': false,
-    'max-len': [error, {code: 160, ignoreTemplateLiterals: true}],
+    'require-jsdoc': 'off',
+    'max-len': ['error', {code: 160, ignoreTemplateLiterals: true}],
   },
 };
