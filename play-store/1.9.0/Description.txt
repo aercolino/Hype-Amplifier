@@ -4,11 +4,3 @@ Hyped News Amplifier spreads Hacker News messages on the page, and rates Reddit 
 -- CONFIGURATION --
 
 Hyped News Amplifier is dead simple. It only needs a number to do its magic. By default the number is set to 50%, meaning that points and comments weigh the same. Open the Options page and customize that number. For example, if you set it to 10% points and 90% comments, then comments will count 9 times more than points.
-
-
--- PERMISSIONS --
-
-The following permissions allow Hyped News Amplifier to work. Rest assured that absolutely no info ever exits your computer. You can check the code.
-
-+ "Read and change your data on news.ycombinator.com and www.reddit.com" is needed to do the magic
-+ "Read your browsing history" is needed to keep doing it when navigating without reloading (Reddit)
