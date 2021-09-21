@@ -1,0 +1,23 @@
+{
+  "name": "hypednewsamplifier",
+  "version": "1.9.0",
+  "description": "Google Chrome extension for spotting Hacker News and Reddit most voted and commented messages at a glance",
+  "main": "manifest.json",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aercolino/Hype-Amplifier.git"
+  },
+  "keywords": [
+    "HackerNews",
+    "Reddit"
+  ],
+  "author": "Andrea Ercolino | mondotondo.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aercolino/Hype-Amplifier/issues"
+  },
+  "homepage": "https://github.com/aercolino/Hype-Amplifier#readme"
+}
