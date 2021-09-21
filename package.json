@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/aercolino/Hype-Amplifier/issues"
   },
-  "homepage": "https://github.com/aercolino/Hype-Amplifier#readme"
+  "homepage": "https://github.com/aercolino/Hype-Amplifier#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-google": "^0.14.0"
+  }
 }
