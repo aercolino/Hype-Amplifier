@@ -2,7 +2,7 @@
 
 class Amplifier {
     static goldenRatio = 0.618;
-    static ratingStarsFragments = this.createRatingStarsFragments();
+    static ratingStarsFragments = Amplifier.createRatingStarsFragments();
 
     constructor(pointsRatio) {
         this.ratios = Amplifier.getRatios(pointsRatio);
