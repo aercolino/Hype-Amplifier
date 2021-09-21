@@ -1,3 +1,6 @@
-module.exports = () => ({
-  presets: [require("@babel/preset-env")]
-});
+module.exports = (api) => {
+  api.cache(true);
+  return {
+    presets: [require('@babel/preset-env')]
+  };
+};
