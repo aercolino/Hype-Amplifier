@@ -2,6 +2,8 @@
 
 Hyped News Amplifier spreads Hacker News messages on the page, and rates Reddit messages with up to 5 stars, according to the number of points and comments, conveniently weighted the way you like. At the same time, it preserves vertical positions, so that messages continue drifting down as they age.
 
+https://chrome.google.com/webstore/detail/hyped-news-amplifier/jaapjannjfdcklcgadbhiddhbelhhnkp
+
 
 ## Configuration
 
@@ -15,5 +17,3 @@ Hacker News and Reddit sites continuously publish news, which users can read, li
 Whenever you start browsing those sites, thousands of other readers around the world have already determined what news mattered most to them. There are very good chances that those same news matter to you too, but you can't tell them apart at a glance, because hyped and fresh news are all mixed up. Instead, you have to eye-scan all the page once and again, comparing and remembering numbers of points and comments, to find out what you should read first.
 
 Hyped News Amplifier solves that problem: Glance at the page, and immediately see the most voted and commented messages.
-
-https://chrome.google.com/webstore/detail/hyped-news-amplifier/jaapjannjfdcklcgadbhiddhbelhhnkp
